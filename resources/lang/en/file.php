@@ -470,6 +470,7 @@ return [
 	"Net Purchase Return" => "Net Purchase Return",
 	"Attendance" => "Attendance",
 	"Add Attendance" => "Add Attendance",
+	"HRM" => "HRM",
 	"HRM Setting" => "HRM Setting",
 	"CheckIn" => "CheckIn",
 	"CheckOut" => "CheckOut",
@@ -608,6 +609,9 @@ return [
 	"Points" =>"Points",
 	"Cancel" =>"Cancel",
 	"Recent Transaction" =>"Recent Transaction",
+	"POS" => "POS",
+
+
 	"Discount Plan" => "Discount Plan",
 	"Create Discount Plan" => "Create Discount Plan",
 	"Inactive" => "Inactive",
@@ -688,8 +692,6 @@ return [
 	"Add Purchase Return" => "Add Purchase Return",
 	"Only default currency can have 1 as exchange rate. Please change the exchange rate of your default currency" => "Only default currency can have 1 as exchange rate. Please change the exchange rate of your default currency",
 	"Click to Add" => "Click to Add",
-
-
 	"Field Belongs To" => "Field Belongs To",
 	"Field Name" => "Field Name",
 	"Field Type" => "Field Type",

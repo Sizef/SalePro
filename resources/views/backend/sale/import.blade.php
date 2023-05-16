@@ -55,7 +55,7 @@
                                         <div class="form-group">
                                             <label>{{trans('file.Upload CSV File')}} *</label>
                                             <input type="file" name="file" class="form-control" required />
-                                            <p>{{trans('file.The correct column order is')}} (product_code, quantity, sale_unit, product_price, discount, tax_name) {{trans('file.and you must follow this')}}. {{trans('file.For Digital product sale_unit will be n/a')}}. {{trans('file.All columns are required')}}</p>
+                                            <p>{{trans('file.The correct column order is')}} (product_code, quantity, sale_unit, product_price, discount, tax_name) {{trans('file.and you must follow this')}}. {{trans('file.For Digital product sale_unit will be n/a')}} . {{trans('file.All columns are required')}}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

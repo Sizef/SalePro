@@ -73,7 +73,7 @@
             <ul id="sale" class="collapse list-unstyled ">
                 @if($sale_add_permission_active)
                 <li id="sale-list-menu"><a href="{{route('sales.index')}}">{{trans('file.Sale List')}}</a></li>
-                <li><a href="{{route('sale.pos')}}">POS</a></li>
+                <li><a href="{{route('sale.pos')}}">{{trans('file.POS')}}</a></li>
                 <li id="sale-create-menu"><a href="{{route('sales.create')}}">{{trans('file.Add Sale')}}</a></li>
                 <li id="sale-import-menu"><a href="{{url('sales/sale_by_csv')}}">{{trans('file.Import Sale By CSV')}}</a></li>
                 @endif
@@ -201,7 +201,7 @@
             ?>
 
             @if($department_active || $index_employee_active || $attendance_active || $payroll_active || $holiday_active)
-            <li class=""><a href="#hrm" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-user-group"></i><span>HRM</span></a>
+            <li class=""><a href="#hrm" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-user-group"></i><span>{{trans('file.HRM')}}</span></a>
             <ul id="hrm" class="collapse list-unstyled ">
                 @if($department_active)
                 <li id="dept-menu"><a href="{{route('departments.index')}}">{{trans('file.Department')}}</a></li>
@@ -576,7 +576,7 @@
                     <li id="sms-setting-menu"><a href="{{route('setting.sms')}}">{{trans('file.SMS Setting')}}</a></li>
                     @endif
                     @if($pos_setting_permission_active)
-                    <li id="pos-setting-menu"><a href="{{route('setting.pos')}}">POS {{trans('file.settings')}}</a></li>
+                    <li id="pos-setting-menu"><a href="{{route('setting.pos')}}">{{trans('file.POS Setting')}}</a></li>
                     @endif
                     @if($hrm_setting_permission_active)
                     <li id="hrm-setting-menu"><a href="{{route('setting.hrm')}}"> {{trans('file.HRM Setting')}}</a></li>
