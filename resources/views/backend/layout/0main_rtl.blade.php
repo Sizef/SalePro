@@ -944,7 +944,7 @@
                 @if($product_qty_alert_active)
                   @if(($alert_product + count(\Auth::user()->unreadNotifications)) > 0)
                   <li class="nav-item" id="notification-icon">
-                        <a rel="nofollow" data-toggle="tooltip" title="{{__('Notifications')}}" class="nav-link dropdown-item"><i class="dripicons-bell"></i><span class="badge badge-danger notification-number">{{$alert_product + count(\Auth::user()->unreadNotifications)}}</span>
+                        <a rel="nofollow" data-toggle="tooltip" title="{{trans('file.Notifications')}}" class="nav-link dropdown-item"><i class="dripicons-bell"></i><span class="badge badge-danger notification-number">{{$alert_product + count(\Auth::user()->unreadNotifications)}}</span>
                         </a>
                         <ul class="right-sidebar">
                             <li class="notifications">

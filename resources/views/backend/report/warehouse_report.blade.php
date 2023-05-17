@@ -72,7 +72,7 @@
                             <th>{{trans('file.Date')}}</th>
                             <th>{{trans('file.reference')}} No</th>
                             <th>{{trans('file.customer')}}</th>
-                            <th>{{trans('file.product')}} ({{trans('file.qty')}})</th>
+                            <th>{{trans('file.Product')}} ({{trans('file.Qty')}})</th>
                             <th>{{trans('file.grand total')}}</th>
                             <th>{{trans('file.Paid')}}</th>
                             <th>{{trans('file.Due')}}</th>
@@ -106,7 +106,7 @@
                             <th>{{trans('file.Date')}}</th>
                             <th>{{trans('file.reference')}} No</th>
                             <th>{{trans('file.Supplier')}}</th>
-                            <th>{{trans('file.product')}} ({{trans('file.qty')}})</th>
+                            <th>{{trans('file.Product')}} ({{trans('file.Qty')}})</th>
                             <th>{{trans('file.grand total')}}</th>
                             <th>{{trans('file.Paid')}}</th>
                             <th>{{trans('file.Due')}}</th>
@@ -141,7 +141,7 @@
                             <th>{{trans('file.reference')}}</th>
                             <th>{{trans('file.customer')}}</th>
                             <th>{{trans('file.Supplier')}}</th>
-                            <th>{{trans('file.product')}} ({{trans('file.qty')}})</th>
+                            <th>{{trans('file.Product')}} ({{trans('file.Qty')}})</th>
                             <th>{{trans('file.grand total')}}</th>
                             <th>{{trans('file.Status')}}</th>
                         </tr>
@@ -173,7 +173,7 @@
                             <th>{{trans('file.reference')}}</th>
                             <th>{{trans('file.customer')}}</th>
                             <th>{{trans('file.Biller')}}</th>
-                            <th>{{trans('file.product')}} ({{trans('file.qty')}})</th>
+                            <th>{{trans('file.Product')}} ({{trans('file.Qty')}})</th>
                             <th>{{trans('file.grand total')}}</th>
                         </tr>
                     </thead>

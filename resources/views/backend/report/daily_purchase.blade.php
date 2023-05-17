@@ -25,13 +25,13 @@
 						</thead>
 					    <tbody>
 						    <tr>
-							    <td><strong>Sunday</strong></td>
-							    <td><strong>Monday</strong></td>
-							    <td><strong>Tuesday</strong></td>
-							    <td><strong>Wednesday</strong></td>
-							    <td><strong>Thrusday</strong></td>
-							    <td><strong>Friday</strong></td>
-							    <td><strong>Saturday</strong></td>
+							    <td><strong>{{trans('file.Sunday')}}</strong></td>
+							    <td><strong>{{trans('file.Monday')}}</strong></td>
+							    <td><strong>{{trans('file.Tuesday')}}</strong></td>
+							    <td><strong>{{trans('file.Wednesday')}}</strong></td>
+							    <td><strong>{{trans('file.Thrusday')}}</strong></td>
+							    <td><strong>{{trans('file.Friday')}}</strong></td>
+							    <td><strong>{{trans('file.Saturday')}}</strong></td>
 						    </tr>
 						    <?php
 						    	$i = 1;

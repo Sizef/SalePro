@@ -122,11 +122,11 @@
             <table class="table table-bordered product-delivery-list">
                 <thead>
                     <th>No</th>
-                    <th>Code</th>
-                    <th>Description</th>
+                    <th>{{trans('file.Code')}}</th>
+                    <th>{{trans('file.Description')}}</th>
                     <th>{{trans('file.Batch No')}}</th>
                     <th>{{trans('file.Expired Date')}}</th>
-                    <th>Qty</th>
+                    <th>{{trans('file.Qty')}}</th>
                 </thead>
                 <tbody>
                 </tbody>
@@ -247,14 +247,14 @@
         $("#delivery-content tbody").remove();
         var newBody = $("<tbody>");
         var rows = '';
-        rows += '<tr><td>Date</td><td>'+delivery[0]+'</td></tr>';
-        rows += '<tr><td>Delivery Reference</td><td>'+delivery[1]+'</td></tr>';
-        rows += '<tr><td>Sale Reference</td><td>'+delivery[2]+'</td></tr>';
-        rows += '<tr><td>Status</td><td>'+delivery[3]+'</td></tr>';
-        rows += '<tr><td>Customer Name</td><td>'+delivery[5]+'</td></tr>';
-        rows += '<tr><td>Address</td><td>'+delivery[7]+', '+delivery[8]+'</td></tr>';
-        rows += '<tr><td>Phone Number</td><td>'+delivery[6]+'</td></tr>';
-        rows += '<tr><td>Note</td><td>'+delivery[9]+'</td></tr>';
+        rows += '<tr><td>'+"{{trans('file.Date')}}"+'</td><td>'+delivery[0]+'</td></tr>';
+        rows += '<tr><td>'+"{{trans('file.Delivery Reference')}}"+'</td><td>'+delivery[1]+'</td></tr>';
+        rows += '<tr><td>'+"{{trans('file.Sale Reference')}}"+'</td><td>'+delivery[2]+'</td></tr>';
+        rows += '<tr><td>'+"{{trans('file.Status')}}"+'</td><td>'+delivery[3]+'</td></tr>';
+        rows += '<tr><td>'+"{{trans('file.Customer Name')}}"+'</td><td>'+delivery[5]+'</td></tr>';
+        rows += '<tr><td>'+"{{trans('file.Address')}}"+'</td><td>'+delivery[7]+', '+delivery[8]+'</td></tr>';
+        rows += '<tr><td>'+"{{trans('file.Phone Number')}}"+'</td><td>'+delivery[6]+'</td></tr>';
+        rows += '<tr><td>'+"{{trans('file.Note')}}"+'</td><td>'+delivery[9]+'</td></tr>';
 
         newBody.append(rows);
         $("table#delivery-content").append(newBody);
@@ -273,7 +273,7 @@
                 cols += '<td><strong>' + (index+1) + '</strong></td>';
                 cols += '<td>' + code[index] + '</td>';
                 cols += '<td>' + description[index] + '</td>';
-                cols += '<td>' + batch_no[index] + '</td>';
+                cols += '<td>' + batch_no[index] + '</td>'; 
                 cols += '<td>' + expired_date[index] + '</td>';
                 cols += '<td>' + qty[index] + '</td>';
                 newRow.append(cols);
@@ -282,9 +282,10 @@
             $("table.product-delivery-list").append(newBody);
         });
 
-        var htmlfooter = '<div class="col-md-4 form-group"><p>Prepared By: '+delivery[10]+'</p></div>';
-        htmlfooter += '<div class="col-md-4 form-group"><p>Delivered By: '+delivery[11]+'</p></div>';
-        htmlfooter += '<div class="col-md-4 form-group"><p>Recieved By: '+delivery[12]+'</p></div>';
+        
+        var htmlfooter = '<div class="col-md-4 form-group"><p> '+"{{trans('file.Prepared By:')}}"+delivery[10]+'</p></div>';
+        htmlfooter += '<div class="col-md-4 form-group"><p>'+"{{trans('file.Delivered By:')}}"+delivery[11]+'</p></div>';
+        htmlfooter += '<div class="col-md-4 form-group"><p>'+"{{trans('file.Recieved By:')}}"+delivery[12]+'</p></div>';
         htmlfooter += '<br><br>';
         htmlfooter += '<div class="col-md-2 offset-md-5"><img style="max-width:850px;height:100%;max-height:130px" src="data:image/png;base64,'+barcode+'" alt="barcode" /></div>';
 

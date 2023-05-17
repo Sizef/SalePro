@@ -117,13 +117,13 @@
                                 <div class="col-md-4 form-group">
                                 	<label>{{trans('file.Valid on the following days')}}</label>
                                 	<ul style="list-style-type: none; margin-left: -30px;">
-                                		<li><input type="checkbox" class="Mon" name="days[]" value="Mon">&nbsp; Monday</li>
-                                		<li><input type="checkbox" class="Tue" name="days[]" value="Tue">&nbsp; Tuesday</li>
-                                		<li><input type="checkbox" class="Wed" name="days[]" value="Wed">&nbsp; Wednesday</li>
-                                		<li><input type="checkbox" class="Thu" name="days[]" value="Thu">&nbsp; Thursday</li>
-                                		<li><input type="checkbox" class="Fri" name="days[]" value="Fri">&nbsp; Friday</li>
-                                		<li><input type="checkbox" class="Sat" name="days[]" value="Sat">&nbsp; Saturday</li>
-                                		<li><input type="checkbox" class="Sun" name="days[]" value="Sun">&nbsp; Sunday</li>
+                                		<li><input type="checkbox" class="Mon" name="days[]" value="Mon">&nbsp; {{trans('file.Monday')}}</li>
+                                		<li><input type="checkbox" class="Tue" name="days[]" value="Tue">&nbsp; {{trans('file.Tuesday')}}</li>
+                                		<li><input type="checkbox" class="Wed" name="days[]" value="Wed">&nbsp; {{trans('file.Wednesday')}}</li>
+                                		<li><input type="checkbox" class="Thu" name="days[]" value="Thu">&nbsp; {{trans('file.Thrusday')}}</li>
+                                		<li><input type="checkbox" class="Fri" name="days[]" value="Fri">&nbsp; {{trans('file.Friday')}}</li>
+                                		<li><input type="checkbox" class="Sat" name="days[]" value="Sat">&nbsp; {{trans('file.Saturday')}}</li>
+                                		<li><input type="checkbox" class="Sun" name="days[]" value="Sun">&nbsp; {{trans('file.Sunday')}}</li>
                                 	</ul>
                                 </div>
                                 <div class="col-md-12 mt-2">

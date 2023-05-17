@@ -44,7 +44,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label><strong>{{trans('file.product_list')}}</strong></label>
-                        <input type="text" name="product_list" class="form-control" placeholder="Type product code seperated by comma">
+                        <input type="text" name="product_list" class="form-control" placeholder="{{trans('file.Type product code seperated by comma')}}">
                     </div>
                 </div>
                 <div class="col-md-3">

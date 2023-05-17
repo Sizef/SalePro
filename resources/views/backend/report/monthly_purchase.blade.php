@@ -24,18 +24,18 @@
 						</thead>
 					    <tbody>
 						    <tr>
-						      <td><strong>January</strong></td>
-						      <td><strong>February</strong></td>
-						      <td><strong>March</strong></td>
-						      <td><strong>April</strong></td>
-						      <td><strong>May</strong></td>
-						      <td><strong>June</strong></td>
-						      <td><strong>July</strong></td>
-						      <td><strong>August</strong></td>
-						      <td><strong>September</strong></td>
-						      <td><strong>October</strong></td>
-						      <td><strong>November</strong></td>
-						      <td><strong>December</strong></td>
+						      <td><strong>{{trans('file.January')}}</strong></td>
+						      <td><strong>{{trans('file.February')}}</strong></td>
+						      <td><strong>{{trans('file.March')}}</strong></td>
+						      <td><strong>{{trans('file.April')}}</strong></td>
+						      <td><strong>{{trans('file.May')}}</strong></td>
+						      <td><strong>{{trans('file.June')}}</strong></td>
+						      <td><strong>{{trans('file.July')}}</strong></td>
+						      <td><strong>{{trans('file.August')}}</strong></td>
+						      <td><strong>{{trans('file.September')}}</strong></td>
+						      <td><strong>{{trans('file.October')}}</strong></td>
+						      <td><strong>{{trans('file.November')}}</strong></td>
+						      <td><strong>{{trans('file.December')}}</strong></td>
 						    </tr>
 						    <tr>
 						    	@foreach($total_discount as $key => $discount)

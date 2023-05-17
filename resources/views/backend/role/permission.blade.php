@@ -21,7 +21,7 @@
 						            <th colspan="5" class="text-center">{{$lims_role_data->name}} {{trans('file.Group Permission')}}</th>
 						        </tr>
 						        <tr>
-						            <th rowspan="2" class="text-center">Module Name</th>
+						            <th rowspan="2" class="text-center">{{trans('file.Module Name')}}</th>
 						            <th colspan="4" class="text-center">
 						            	<div class="checkbox">
 						            		<input type="checkbox" id="select_all">
@@ -38,7 +38,7 @@
 						        </thead>
 						        <tbody>
 						        <tr>
-						            <td>{{trans('file.product')}}</td>
+						            <td>{{trans('file.Product')}}</td>
 						            <td class="text-center">
 						                <div class="icheckbox_square-blue checked" aria-checked="false" aria-disabled="false">
 							                <div class="checkbox">
@@ -918,7 +918,7 @@
 						            </td>
 						        </tr>
 						        <tr>
-						            <td>HRM</td>
+						            <td>{{trans('file.HRM')}}</td>
 						            <td class="report-permissions" colspan="5">
 						            	<span>
 						                    <div aria-checked="false" aria-disabled="false">

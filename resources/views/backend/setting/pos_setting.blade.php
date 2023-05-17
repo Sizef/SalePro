@@ -95,17 +95,17 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h4><strong>Stripe</strong></h4>
+                                    <h4><strong>{{trans('file.Stripe')}}</strong></h4>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Stripe Publishable key</label>
+                                        <label>{{trans('file.Stripe Publishable key')}}</label>
                                         <input type="text" name="stripe_public_key" class="form-control" value="@if($lims_pos_setting_data){{$lims_pos_setting_data->stripe_public_key}}@endif" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Stripe Secret key *</label>
+                                        <label>{{trans('file.Stripe Secret key')}} *</label>
                                         <input type="text" name="stripe_secret_key" class="form-control" value="@if($lims_pos_setting_data){{$lims_pos_setting_data->stripe_secret_key}}@endif" />
                                     </div>
                                 </div>
@@ -113,23 +113,23 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h4><strong>Paypal</strong></h4>
+                                    <h4><strong>{{trans('file.PayPal')}}</strong></h4>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Paypal Pro API Username</label>
+                                        <label>{{trans('file.Paypal Pro API Username')}}</label>
                                         <input type="text" name="paypal_username" class="form-control" value="@if($lims_pos_setting_data){{$lims_pos_setting_data->paypal_live_api_username}}@endif" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Paypal Pro API Signature</label>
+                                        <label>{{trans('file.Paypal Pro API Signature')}}</label>
                                         <input type="text" name="paypal_signature" class="form-control" value="@if($lims_pos_setting_data){{$lims_pos_setting_data->paypal_live_api_secret}}@endif" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Paypal Pro API Password</label>
+                                        <label>{{trans('file.Paypal Pro API Password')}}</label>
                                         <input type="password" name="paypal_password" class="form-control" value="@if($lims_pos_setting_data){{$lims_pos_setting_data->paypal_live_api_password}}@endif" />
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-12 mb-3">
-                                    <h4><strong>Payment Options</strong></h4>
+                                    <h4><strong>{{trans('file.Payment Options')}}</strong></h4>
                                 </div>
                                 <div class="col-md-12 d-flex justify-content-between">
                                     <div class="form-group d-inline">
@@ -146,7 +146,7 @@
                                         @else
                                         <input class="mt-2" type="checkbox" name="options[]" value="cash">
                                         @endif
-                                        <label class="mt-2"><strong>Cash</strong></label>
+                                        <label class="mt-2"><strong>{{trans('file.Cash')}}</strong></label>
                                     </div>
 
                                     <div class="form-group d-inline">
@@ -155,7 +155,7 @@
                                         @else
                                         <input class="mt-2" type="checkbox" name="options[]" value="card">
                                         @endif
-                                        <label class="mt-2"><strong>Card</strong></label>
+                                        <label class="mt-2"><strong>{{trans('file.Card')}}</strong></label>
                                     </div>
 
                                     <div class="form-group d-inline">
@@ -164,7 +164,7 @@
                                         @else
                                         <input class="mt-2" type="checkbox" name="options[]" value="cheque">
                                         @endif
-                                        <label class="mt-2"><strong>Cheque</strong></label>
+                                        <label class="mt-2"><strong>{{trans('file.Cheque')}}</strong></label>
                                     </div>
 
                                     <div class="form-group d-inline">
@@ -173,7 +173,7 @@
                                         @else
                                         <input class="mt-2" type="checkbox" name="options[]" value="gift_card">
                                         @endif
-                                        <label class="mt-2"><strong>Gift Card</strong></label>
+                                        <label class="mt-2"><strong>{{trans('file.Gift Card')}}</strong></label>
                                     </div>
 
                                     <div class="form-group d-inline">
@@ -182,7 +182,7 @@
                                         @else
                                         <input class="mt-2" type="checkbox" name="options[]" value="deposit">
                                         @endif
-                                        <label class="mt-2"><strong>Deposit</strong></label>
+                                        <label class="mt-2"><strong>{{trans('file.Deposit')}}</strong></label>
                                     </div>
 
                                     <div class="form-group d-inline">
@@ -191,7 +191,7 @@
                                         @else
                                         <input class="mt-2" type="checkbox" name="options[]" value="paypal">
                                         @endif
-                                        <label class="mt-2"><strong>Paypal</strong></label>
+                                        <label class="mt-2"><strong>{{trans('file.PayPal')}}</strong></label>
                                     </div>
                                 </div>
                             </div>

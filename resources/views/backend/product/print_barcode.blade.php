@@ -86,9 +86,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label><strong>Paper Size *</strong></label>
+                                        <label><strong>{{trans('file.Paper Size')}} *</strong></label>
                                         <select class="form-control" name="paper_size" required id="paper-size">
-                                            <option value="0">Select paper size...</option>
+                                            <option value="0">{{trans('file.Select paper size...')}}</option>
                                             <option value="36">36 mm (1.4 inch)</option>
                                             <option value="24">24 mm (0.94 inch)</option>
                                             <option value="18">18 mm (0.7 inch)</option>

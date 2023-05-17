@@ -15,7 +15,7 @@
         </div>
         @if($customer->points)
         <div class="brand-text float-right mt-4">
-            <h3>{{trans('file.Reward Points')}}: <span>{{$customer->points}}</span> </h3>
+            <h3>{{trans('file.Reward Points')}} : <span>{{$customer->points}}</span> </h3>
             <h3>{{trans('file.One Point is Equivalent to:')}}
                 @if($general_setting->currency_position == 'prefix')
                     <span>{{$currency->code}} {{$lims_reward_point_setting_data->per_point_amount}}</span>
@@ -68,7 +68,7 @@
                         <th>{{trans('file.Paid')}}</th>
                         <th>{{trans('file.Due')}}</th>
                         <th>{{trans('file.action')}}</th>
-                      </tr>
+                      </tr> 
                     </thead>
                     <tbody>
                       @foreach($lims_sale_data as $key => $sale)

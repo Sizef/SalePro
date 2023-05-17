@@ -91,13 +91,13 @@
                                 <div class="col-md-4 form-group">
                                 	<label>{{trans('file.Valid on the following days')}}</label>
                                 	<ul style="list-style-type: none; margin-left: -30px;">
-                                		<li><input type="checkbox" name="days[]" value="Mon" checked>&nbsp; Monday</li>
-                                		<li><input type="checkbox" name="days[]" value="Tue" checked>&nbsp; Tuesday</li>
-                                		<li><input type="checkbox" name="days[]" value="Wed" checked>&nbsp; Wednesday</li>
-                                		<li><input type="checkbox" name="days[]" value="Thu" checked>&nbsp; Thursday</li>
-                                		<li><input type="checkbox" name="days[]" value="Fri" checked>&nbsp; Friday</li>
-                                		<li><input type="checkbox" name="days[]" value="Sat" checked>&nbsp; Saturday</li>
-                                		<li><input type="checkbox" name="days[]" value="Sun" checked>&nbsp; Sunday</li>
+                                		<li><input type="checkbox" name="days[]" value="Mon" checked>&nbsp; {{trans('file.Monday')}}</li>
+                                		<li><input type="checkbox" name="days[]" value="Tue" checked>&nbsp; {{trans('file.Tuesday')}}</li>
+                                		<li><input type="checkbox" name="days[]" value="Wed" checked>&nbsp; {{trans('file.Wednesday')}}</li>
+                                		<li><input type="checkbox" name="days[]" value="Thu" checked>&nbsp; {{trans('file.Thrusday')}}</li>
+                                		<li><input type="checkbox" name="days[]" value="Fri" checked>&nbsp; {{trans('file.Friday')}}</li>
+                                		<li><input type="checkbox" name="days[]" value="Sat" checked>&nbsp; {{trans('file.Saturday')}}</li>
+                                		<li><input type="checkbox" name="days[]" value="Sun" checked>&nbsp; {{trans('file.Sunday')}}</li>
                                 	</ul>
                                 </div>
                                 <div class="col-md-12 mt-2">

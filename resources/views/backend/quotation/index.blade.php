@@ -120,7 +120,7 @@
                     <th>#</th>
                     <th>{{trans('file.product')}}</th>
                     <th>{{trans('file.Batch No')}}</th>
-                    <th>Qty</th>
+                    <th>{{trans('file.Qty')}}</th>
                     <th>{{trans('file.Unit Price')}}</th>
                     <th>{{trans('file.Tax')}}</th>
                     <th>{{trans('file.Discount')}}</th>

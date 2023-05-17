@@ -177,7 +177,7 @@
                               <th>{{trans('file.date')}}</th>
                               <th>{{trans('file.reference')}}</th>
                               <th>{{trans('file.customer')}}</th>
-                              <th>{{trans('file.status')}}</th>
+                              <th>{{trans('file.Status')}}</th>
                               <th>{{trans('file.grand total')}}</th>
                             </tr>
                           </thead>
@@ -195,7 +195,7 @@
                               <th>{{trans('file.date')}}</th>
                               <th>{{trans('file.reference')}}</th>
                               <th>{{trans('file.Supplier')}}</th>
-                              <th>{{trans('file.status')}}</th>
+                              <th>{{trans('file.Status')}}</th>
                               <th>{{trans('file.grand total')}}</th>
                             </tr>
                           </thead>
@@ -213,7 +213,7 @@
                               <th>{{trans('file.date')}}</th>
                               <th>{{trans('file.reference')}}</th>
                               <th>{{trans('file.customer')}}</th>
-                              <th>{{trans('file.status')}}</th>
+                              <th>{{trans('file.Status')}}</th>
                               <th>{{trans('file.grand total')}}</th>
                             </tr>
                           </thead>
@@ -267,7 +267,7 @@
             <div class="col-md-6">
               <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                  <h4>{{trans('file.Best Seller').' '.date('Y'). '('.trans('file.qty').')'}}</h4>
+                  <h4>{{trans('file.Best Seller').' '.date('Y'). '('.trans('file.Qty').')'}}</h4>
                   <div class="right-column">
                     <div class="badge badge-primary">{{trans('file.top')}} 5</div>
                   </div>
