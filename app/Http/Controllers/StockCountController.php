@@ -38,23 +38,43 @@ class StockCountController extends Controller
     {
         $data = $request->all();
         if( isset($data['brand_id']) && isset($data['category_id']) ){
-            $lims_product_list = DB::table('products')->join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')->whereIn('products.category_id', $data['category_id'] )->whereIn('products.brand_id', $data['brand_id'] )->where([ ['products.is_active', true], ['product_warehouse.warehouse_id', $data['warehouse_id']] ])->select('products.name', 'products.code', 'product_warehouse.imei_number', 'product_warehouse.qty')->get();
+            $lims_product_list = DB::table('products')
+            ->join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')
+            ->whereIn('products.category_id', $data['category_id'] )
+            ->whereIn('products.brand_id', $data['brand_id'] )
+            ->where([ ['products.is_active', true], ['product_warehouse.warehouse_id', $data['warehouse_id']] ])
+            ->select('products.name', 'products.code', 'product_warehouse.imei_number', 'product_warehouse.qty')
+            ->get();
 
             $data['category_id'] = implode(",", $data['category_id']);
             $data['brand_id'] = implode(",", $data['brand_id']);
         }
         elseif( isset($data['category_id']) ){
-            $lims_product_list = DB::table('products')->join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')->whereIn('products.category_id', $data['category_id'])->where([ ['products.is_active', true], ['product_warehouse.warehouse_id', $data['warehouse_id']] ])->select('products.name', 'products.code', 'product_warehouse.imei_number', 'product_warehouse.qty')->get();
+            $lims_product_list = DB::table('products')
+            ->join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')
+            ->whereIn('products.category_id', $data['category_id'])
+            ->where([ ['products.is_active', true], ['product_warehouse.warehouse_id', $data['warehouse_id']] ])
+            ->select('products.name', 'products.code', 'product_warehouse.imei_number', 'product_warehouse.qty')
+            ->get();
 
             $data['category_id'] = implode(",", $data['category_id']);
         }
         elseif( isset($data['brand_id']) ){
-            $lims_product_list = DB::table('products')->join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')->whereIn('products.brand_id', $data['brand_id'])->where([ ['products.is_active', true], ['product_warehouse.warehouse_id', $data['warehouse_id']] ])->select('products.name', 'products.code', 'product_warehouse.imei_number', 'product_warehouse.qty')->get();
+            $lims_product_list = DB::table('products')
+            ->join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')
+            ->whereIn('products.brand_id', $data['brand_id'])
+            ->where([ ['products.is_active', true], ['product_warehouse.warehouse_id', $data['warehouse_id']] ])
+            ->select('products.name', 'products.code', 'product_warehouse.imei_number', 'product_warehouse.qty')
+            ->get();
 
             $data['brand_id'] = implode(",", $data['brand_id']);
         }
         else{
-            $lims_product_list = DB::table('products')->join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')->where([ ['products.is_active', true], ['product_warehouse.warehouse_id', $data['warehouse_id']] ])->select('products.name', 'products.code', 'product_warehouse.imei_number', 'product_warehouse.qty')->get();
+            $lims_product_list = DB::table('products')
+            ->join('product_warehouse', 'products.id', '=', 'product_warehouse.product_id')
+            ->where([ ['products.is_active', true], ['product_warehouse.warehouse_id', $data['warehouse_id']] ])
+            ->select('products.name', 'products.code', 'product_warehouse.imei_number', 'product_warehouse.qty')
+            ->get();
         }
         if( count($lims_product_list) ){
             $csvData=array('Product Name, Product Code, IMEI or Serial Numbers, Expected, Counted');

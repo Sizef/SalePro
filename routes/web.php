@@ -331,6 +331,7 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
 	Route::get('accounts/balancesheet', 'AccountsController@balanceSheet')->name('accounts.balancesheet');
 	Route::post('accounts/account-statement', 'AccountsController@accountStatement')->name('accounts.statement');
 	Route::resource('accounts', 'AccountsController');
+	Route::post('money-transfers/deletebyselection', 'MoneyTransferController@deleteBySelection');
 	Route::resource('money-transfers', 'MoneyTransferController');
 	//HRM routes
 	Route::post('departments/deletebyselection', 'DepartmentController@deleteBySelection');

@@ -346,6 +346,7 @@
                                 }
                             });
                             dt.rows({ page: 'current', selected: true }).remove().draw(false);
+                            location.reload();
                         }
                         else if(!payroll_id.length)
                             alert('No payroll is selected!');

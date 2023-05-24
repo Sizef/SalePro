@@ -70,7 +70,7 @@ class GiftCardController extends Controller
             $data['email'] = $lims_user_data->email;
             $data['name'] = $lims_user_data->name;
             try{
-                Mail::send( 'mail.gift_card_create', $data, function( $message ) use ($data)
+                Mail::send( 'backend.mail.gift_card_create', $data, function( $message ) use ($data)
                 {
                     $message->to( $data['email'] )->subject( 'GiftCard' );
                 });
@@ -84,8 +84,9 @@ class GiftCardController extends Controller
             if($lims_customer_data->email){
                 $data['email'] = $lims_customer_data->email;
                 $data['name'] = $lims_customer_data->name;
+                
                 try{
-                    Mail::send( 'mail.gift_card_create', $data, function( $message ) use ($data)
+                    Mail::send( 'backend.mail.gift_card_create', $data, function( $message ) use ($data)
                     {
                         $message->to( $data['email'] )->subject( 'GiftCard' );
                     });
@@ -158,7 +159,7 @@ class GiftCardController extends Controller
             $data['card_no'] = $lims_gift_card_data->card_no;
             $data['balance'] = $lims_gift_card_data->amount - $lims_gift_card_data->expense;
             try{
-                Mail::send( 'mail.gift_card_recharge', $data, function( $message ) use ($data)
+                Mail::send( 'backend.mail.gift_card_recharge', $data, function( $message ) use ($data)
                 {
                     $message->to( $data['email'] )->subject( 'GiftCard Recharge Info' );
                 });

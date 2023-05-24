@@ -408,9 +408,11 @@
                                 },
                                 success:function(data){
                                     alert(data);
+                                    dt.rows({ page: 'current', selected: true }).remove().draw(false);
+                                    location.reload();
                                 }
                             });
-                            dt.rows({ page: 'current', selected: true }).remove().draw(false);
+                            
                         }
                         else if(!unit_id.length)
                             alert('No unit is selected!');

@@ -242,9 +242,14 @@ class ReturnController extends Controller
         if($role->hasPermissionTo('returns-add')) {
             $lims_tax_list = Tax::where('is_active',true)->get();
             $lims_sale_data = Sale::select('id')->where('reference_no', $request->input('reference_no'))->first();
-            $lims_product_sale_data = Product_Sale::where('sale_id', $lims_sale_data->id)->get();
-            $lims_warehouse_list = Warehouse::where('is_active',true)->get();
-            return view('backend.return.create', compact('lims_tax_list', 'lims_sale_data', 'lims_product_sale_data', 'lims_warehouse_list'));
+
+            if($lims_sale_data === null){
+                return redirect()->back()->with('not_permitted', 'Sorry! There is no result for the what you entered.');
+            }else{
+                $lims_product_sale_data = Product_Sale::where('sale_id', $lims_sale_data->id)->get();
+                $lims_warehouse_list = Warehouse::where('is_active',true)->get();
+                return view('backend.return.create', compact('lims_tax_list', 'lims_sale_data', 'lims_product_sale_data', 'lims_warehouse_list'));
+            }
         }
         else
             return redirect()->back()->with('not_permitted', 'Sorry! You are not allowed to access this module');

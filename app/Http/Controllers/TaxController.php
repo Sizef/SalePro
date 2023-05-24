@@ -122,7 +122,7 @@ class TaxController extends Controller
             $lims_tax_data->is_active = false;
             $lims_tax_data->save();
         }
-        $this->cacheForget('tax_list');
+        //$this->cacheForget('tax_list');
         return 'Tax deleted successfully!';
     }
 

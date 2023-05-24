@@ -16,7 +16,7 @@
             <div class="row mb-3">
                 <div class="col-md-4 offset-md-2 mt-3">
                     <div class="d-flex">
-                        <label class="">{{trans('file.Date')}} &nbsp;</label>
+                        <label class="mt-2"><strong>{{trans('file.Date')}} : &nbsp;</strong></label>
                         <div class="">
                             <div class="input-group">
                                 <input type="text" class="daterangepicker-field form-control" value="{{$starting_date}} To {{$ending_date}}" required />
@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-md-4 mt-3 @if(\Auth::user()->role_id > 2){{'d-none'}}@endif">
                     <div class="d-flex">
-                        <label class="">{{trans('file.Warehouse')}} &nbsp;</label>
+                        <label class="mt-2"><strong>{{trans('file.Warehouse')}} : &nbsp;</strong></label>
                         <div class="">
                             <select id="warehouse_id" name="warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" >
                                 <option value="0">{{trans('file.All Warehouse')}}</option>
@@ -339,19 +339,20 @@
                 className: 'buttons-delete',
                 action: function ( e, dt, node, config ) {
                     if(user_verified == '1') {
-                        sale_id.length = 0;
+                        return_id.length = 0;
                         $(':checkbox:checked').each(function(i){
                             if(i){
-                                var sale = $(this).closest('tr').data('sale');
-                                sale_id[i-1] = sale[13];
+                                var returns = $(this).closest('tr').data('return');
+                                return_id[i-1] = returns[11];
+                                
                             }
                         });
-                        if(sale_id.length && confirm("Are you sure want to delete?")) {
+                        if(return_id.length && confirm("Are you sure want to delete?")) {
                             $.ajax({
                                 type:'POST',
-                                url:'sales/deletebyselection',
+                                url:'return-purchase/deletebyselection',
                                 data:{
-                                    saleIdArray: sale_id
+                                    PurchaseIdArray: return_id
                                 },
                                 success:function(data){
                                     alert(data);
@@ -360,7 +361,7 @@
                                 }
                             });
                         }
-                        else if(!sale_id.length)
+                        else if(!return_id.length)
                             alert('Nothing is selected!');
                     }
                     else

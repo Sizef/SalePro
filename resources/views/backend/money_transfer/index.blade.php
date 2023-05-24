@@ -290,12 +290,13 @@
                         $(':checkbox:checked').each(function(i){
                             if(i){
                                 money_transfer_id[i-1] = $(this).closest('tr').data('id');
+                                
                             }
                         });
                         if(money_transfer_id.length && confirm("Are you sure want to delete?")) {
                             $.ajax({
                                 type:'POST',
-                                url:'money_transfers/deletebyselection',
+                                url:'money-transfers/deletebyselection',
                                 data:{
                                     money_transferIdArray: money_transfer_id
                                 },
@@ -304,6 +305,7 @@
                                 }
                             });
                             dt.rows({ page: 'current', selected: true }).remove().draw(false);
+                            location.reload();
                         }
                         else if(!money_transfer_id.length)
                             alert('No money_transfer is selected!');

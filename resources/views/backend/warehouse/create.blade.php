@@ -324,9 +324,10 @@
                                 },
                                 success:function(data){
                                     alert(data);
+                                    dt.rows({ page: 'current', selected: true }).remove().draw(false);
+                                    location.reload();
                                 }
                             });
-                            dt.rows({ page: 'current', selected: true }).remove().draw(false);
                         }
                         else if(!warehouse_id.length)
                             alert('No warehouse is selected!');

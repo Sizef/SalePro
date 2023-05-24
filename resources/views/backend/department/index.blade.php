@@ -229,6 +229,7 @@ $(document).ready(function() {
                                 }
                             });
                             dt.rows({ page: 'current', selected: true }).remove().draw(false);
+                            location.reload();
                         }
                         else if(!department_id.length)
                             alert('No department is selected!');

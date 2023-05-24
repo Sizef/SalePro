@@ -1,0 +1,1 @@
+MAIL_HOST="smtp.gmail.com"MAIL_PORT=465MAIL_FROM_ADDRESS="rachidoumahnou14@gmail.com"MAIL_FROM_NAME="rachidoumahnou14@gmail.com"MAIL_USERNAME="rachidoumahnou14@gmail.com"MAIL_PASSWORD="your_mail_pass"MAIL_ENCRYPTION="ssl"

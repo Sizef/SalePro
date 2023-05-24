@@ -189,6 +189,7 @@
                                 }
                             });
                             dt.rows({ page: 'current', selected: true }).remove().draw(false);
+                            window.location.reload();
                         }
                         else if(!adjustment_id.length)
                             alert('Nothing is selected!');

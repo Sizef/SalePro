@@ -254,6 +254,7 @@
                                 }
                             });
                             dt.rows({ page: 'current', selected: true }).remove().draw(false);
+                            //location.reload();
                         }
                         else if(!holiday_id.length)
                             alert('Nothing is selected!');

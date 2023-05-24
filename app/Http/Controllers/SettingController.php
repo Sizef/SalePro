@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
 use App\Customer;
 use App\CustomerGroup;
@@ -226,7 +227,7 @@ class SettingController extends Controller
             readfile($backup_file_name);
             exec('rm ' . $backup_file_name); */
         }
-        return redirect('public/' . $zipFileName);
+        return redirect('/' . $zipFileName);
     }
 
     public function changeTheme($theme)
@@ -248,13 +249,43 @@ class SettingController extends Controller
 
         $data = $request->all();
         //writting mail info in .env file
-        $path = '.env';
-        $searchArray = array('MAIL_HOST="'.env('MAIL_HOST').'"', 'MAIL_PORT='.env('MAIL_PORT'), 'MAIL_FROM_ADDRESS="'.env('MAIL_FROM_ADDRESS').'"', 'MAIL_FROM_NAME="'.env('MAIL_FROM_NAME').'"', 'MAIL_USERNAME="'.env('MAIL_USERNAME').'"', 'MAIL_PASSWORD="'.env('MAIL_PASSWORD').'"', 'MAIL_ENCRYPTION="'.env('MAIL_ENCRYPTION').'"');
+        //$environement = App::environment('local');
+
+        $path = base_path('.env');
+
+        //$res = file_exists($path);
+        
+        //dd($res);
+        
+        $searchArray = array(
+                
+            'MAIL_HOST="'.env('MAIL_HOST').'"', 
+            'MAIL_PORT='.env('MAIL_PORT'),
+            'MAIL_FROM_ADDRESS="'.env('MAIL_FROM_ADDRESS').'"',
+            'MAIL_FROM_NAME="'.env('MAIL_FROM_NAME').'"', 
+            'MAIL_USERNAME="'.env('MAIL_USERNAME').'"', 
+            'MAIL_PASSWORD="'.env('MAIL_PASSWORD').'"', 
+            'MAIL_ENCRYPTION="'.env('MAIL_ENCRYPTION').'"'
+        );
         //return $searchArray;
 
-        $replaceArray = array('MAIL_HOST="'.$data['mail_host'].'"', 'MAIL_PORT='.$data['port'], 'MAIL_FROM_ADDRESS="'.$data['mail_address'].'"', 'MAIL_FROM_NAME="'.$data['mail_name'].'"', 'MAIL_USERNAME="'.$data['mail_address'].'"', 'MAIL_PASSWORD="'.$data['password'].'"', 'MAIL_ENCRYPTION="'.$data['encryption'].'"');
+        $replaceArray = array(
+            
+            'MAIL_HOST="'.$data['mail_host'].'"', 
+            'MAIL_PORT='.$data['port'], 
+            'MAIL_FROM_ADDRESS="'.$data['mail_address'].'"', 
+            'MAIL_FROM_NAME="'.$data['mail_name'].'"', 
+            'MAIL_USERNAME="'.$data['mail_address'].'"', 
+            'MAIL_PASSWORD="'.$data['password'].'"', 
+            'MAIL_ENCRYPTION="'.$data['encryption'].'"'
+        );
         
-        file_put_contents($path, str_replace($searchArray, $replaceArray, file_get_contents($path)));
+        $current = file_get_contents($path);
+
+        //dd($replaceArray);
+        //dd($current);
+
+        file_put_contents($path, str_replace($searchArray, $replaceArray, $current));
 
         return redirect()->back()->with('message', 'Data updated successfully');
     }
@@ -271,11 +302,25 @@ class SettingController extends Controller
         
         $data = $request->all();
         //writting bulksms info in .env file
-        $path = '.env';
-        if($data['gateway'] == 'twilio'){
-            $searchArray = array('SMS_GATEWAY='.env('SMS_GATEWAY'), 'ACCOUNT_SID='.env('ACCOUNT_SID'), 'AUTH_TOKEN='.env('AUTH_TOKEN'), 'Twilio_Number='.env('Twilio_Number') );
+        $path = base_path('.env');
 
-            $replaceArray = array('SMS_GATEWAY='.$data['gateway'], 'ACCOUNT_SID='.$data['account_sid'], 'AUTH_TOKEN='.$data['auth_token'], 'Twilio_Number='.$data['twilio_number'] );
+        if($data['gateway'] == 'twilio'){
+
+            $searchArray = array(
+                
+                'SMS_GATEWAY='.env('SMS_GATEWAY'), 
+                'ACCOUNT_SID='.env('ACCOUNT_SID'), 
+                'AUTH_TOKEN='.env('AUTH_TOKEN'), 
+                'Twilio_Number='.env('Twilio_Number') 
+            );
+
+            $replaceArray = array(
+                
+                'SMS_GATEWAY='.$data['gateway'], 
+                'ACCOUNT_SID='.$data['account_sid'], 
+                'AUTH_TOKEN='.$data['auth_token'], 
+                'Twilio_Number='.$data['twilio_number'] 
+            );
         }
         else{
             $searchArray = array( 'SMS_GATEWAY='.env('SMS_GATEWAY'), 'CLICKATELL_API_KEY='.env('CLICKATELL_API_KEY') );
@@ -294,6 +339,9 @@ class SettingController extends Controller
 
     public function sendSms(Request $request)
     {
+
+        //dd(env('CLICKATELL_API_KEY'));
+
         $data = $request->all();
         $numbers = explode(",", $data['mobile']);
 
@@ -321,7 +369,7 @@ class SettingController extends Controller
         }
         elseif( env('SMS_GATEWAY') == 'clickatell') {
             try {
-                $clickatell = new \Clickatell\Rest(env('CLICKATELL_API_KEY'));
+                $clickatell = new Rest(env('CLICKATELL_API_KEY'));
                 foreach ($numbers as $number) {
                     $result = $clickatell->sendMessage(['to' => [$number], 'content' => $data['message']]);
                 }

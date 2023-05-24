@@ -14,9 +14,9 @@
             </div>
             {!! Form::open(['route' => 'transfers.index', 'method' => 'get']) !!}
             <div class="row mb-3">
-                <div class="col-md-3 offset-md-1 mt-3">
+                <div class="col-md-3 offset-md-0 mt-3">
                     <div class="d-flex">
-                        <label class="">{{trans('file.Date')}} &nbsp;</label>
+                        <label class="mt-2"><strong>{{trans('file.Date')}} : &nbsp;</strong></label>
                         <div class="">
                             <div class="input-group">
                                 <input type="text" class="daterangepicker-field form-control" value="{{$starting_date}} To {{$ending_date}}" required />
@@ -26,9 +26,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 mt-3 @if(\Auth::user()->role_id > 2){{'d-none'}}@endif">
+                <div class="col-md-4 mt-3 @if(\Auth::user()->role_id > 2){{'d-none'}}@endif">
                     <div class="d-flex">
-                        <label class="">{{trans('file.From Warehouse')}} &nbsp;</label>
+                        <label class="mt-2"><strong>{{trans('file.From Warehouse')}} : &nbsp;</strong></label>
                         <div class="">
                             <select id="from_warehouse_id" name="from_warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" >
                                 <option value="0">{{trans('file.All Warehouse')}}</option>
@@ -43,9 +43,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 mt-3 @if(\Auth::user()->role_id > 2){{'d-none'}}@endif">
+                <div class="col-md-4 mt-3 @if(\Auth::user()->role_id > 2){{'d-none'}}@endif">
                     <div class="d-flex">
-                        <label class="">{{trans('file.To Warehouse')}} &nbsp;</label>
+                        <label class="mt-2"><strong>{{trans('file.To Warehouse')}} : &nbsp;</strong></label>
                         <div class="">
                             <select id="to_warehouse_id" name="to_warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" >
                                 <option value="0">{{trans('file.All Warehouse')}}</option>
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 mt-3">
+                <div class="col-md-0 mt-3">
                     <div class="form-group">
                         <button class="btn btn-primary" id="filter-btn" type="submit">{{trans('file.submit')}}</button>
                     </div>

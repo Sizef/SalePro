@@ -227,6 +227,7 @@
                                 }
                             });
                             dt.rows({ page: 'current', selected: true }).remove().draw(false);
+                            location.reload();
                         }
                         else if(!attendance_id.length)
                             alert('Nothing is selected!');

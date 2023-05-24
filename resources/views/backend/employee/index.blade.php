@@ -44,7 +44,7 @@
                     <td>{{$key}}</td>
                     @if($employee->image)
                     <td>
-                        <img src="{{url('images/employee',$employee->image)}}" height="80" width="80">
+                        <img src="{{url('public/images/employee',$employee->image)}}" height="80" width="80">
                     </td>
                     @else
                     <td>No Image</td>
@@ -333,6 +333,7 @@
                                 }
                             });
                             dt.rows({ page: 'current', selected: true }).remove().draw(false);
+                            location.reload();
                         }
                         else if(!employee_id.length)
                             alert('No employee is selected!');

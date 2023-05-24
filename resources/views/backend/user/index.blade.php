@@ -212,6 +212,7 @@
                                 }
                             });
                             dt.rows({ page: 'current', selected: true }).remove().draw(false);
+                            location.reload();
                         }
                         else if(!user_id.length)
                             alert('No user is selected!');

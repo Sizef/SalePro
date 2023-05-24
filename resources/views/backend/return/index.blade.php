@@ -16,7 +16,7 @@
             <div class="row mb-3">
                 <div class="col-md-4 offset-md-2 mt-3">
                     <div class="d-flex">
-                        <label class="">{{trans('file.Date')}} &nbsp;</label>
+                        <label class="mt-2"><strong>{{trans('file.Date')}} : &nbsp;</strong></label>
                         <div class="">
                             <div class="input-group">
                                 <input type="text" class="daterangepicker-field form-control" value="{{$starting_date}} To {{$ending_date}}" required />
@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-md-4 mt-3 @if(\Auth::user()->role_id > 2){{'d-none'}}@endif">
                     <div class="d-flex">
-                        <label class="">{{trans('file.Warehouse')}} &nbsp;</label>
+                        <label class="mt-2"><strong>{{trans('file.Warehouse')}} : &nbsp;</strong></label>
                         <div class="">
                             <select id="warehouse_id" name="warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" >
                                 <option value="0">{{trans('file.All Warehouse')}}</option>
@@ -356,12 +356,12 @@
                         if(return_id.length && confirm("Are you sure want to delete?")) {
                             $.ajax({
                                 type:'POST',
-                                url:'returns/deletebyselection',
+                                url:'return-sale/deletebyselection',
                                 data:{
                                     returnIdArray: return_id
                                 },
                                 success:function(data){
-                                    alert(data);
+                                    //alert(data);
                                     //dt.rows({ page: 'current', selected: true }).deselect();
                                     dt.rows({ page: 'current', selected: true }).remove().draw(false);
                                 }

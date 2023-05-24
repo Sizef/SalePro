@@ -225,11 +225,18 @@ class ReturnPurchaseController extends Controller
         $role = Role::find(Auth::user()->role_id);
         if($role->hasPermissionTo('purchase-return-add')) {
             $lims_purchase_data = Purchase::select('id')->where('reference_no', $request->input('reference_no'))->first();
-            $lims_product_purchase_data = ProductPurchase::where('purchase_id', $lims_purchase_data->id)->get();
-            $lims_warehouse_list = Warehouse::where('is_active',true)->get();
-            $lims_tax_list = Tax::where('is_active',true)->get();
-            $lims_account_list = Account::where('is_active',true)->get();
-            return view('backend.return_purchase.create', compact('lims_warehouse_list', 'lims_tax_list', 'lims_account_list', 'lims_purchase_data', 'lims_product_purchase_data'));
+
+            if($lims_purchase_data === null) {
+                return redirect()->back()->with('not_permitted', 'Sorry! There is no result for the what you entered.');
+
+            }else{
+                $lims_product_purchase_data = ProductPurchase::where('purchase_id', $lims_purchase_data->id)->get();
+                $lims_warehouse_list = Warehouse::where('is_active',true)->get();
+                $lims_tax_list = Tax::where('is_active',true)->get();
+                $lims_account_list = Account::where('is_active',true)->get();
+                return view('backend.return_purchase.create', compact('lims_warehouse_list', 'lims_tax_list', 'lims_account_list', 'lims_purchase_data', 'lims_product_purchase_data'));
+            }
+        
         }
         else
             return redirect()->back()->with('not_permitted', 'Sorry! You are not allowed to access this module');
@@ -418,9 +425,9 @@ class ReturnPurchaseController extends Controller
         $mail_data['email'] = '';
         if($data['supplier_id']) {
             $lims_supplier_data = Supplier::find($data['supplier_id']);
-            //collecting male data
-            $mail_data['email'] = $lims_supplier_data->email;
+            //collecting mail data
             $mail_data['reference_no'] = $lims_return_data->reference_no;
+            $mail_data['email'] = $lims_supplier_data->email;
             $mail_data['total_qty'] = $lims_return_data->total_qty;
             $mail_data['total_price'] = $lims_return_data->total_price;
             $mail_data['order_tax'] = $lims_return_data->order_tax;
@@ -548,9 +555,12 @@ class ReturnPurchaseController extends Controller
             );
         }
         $message = 'Return created successfully';
-        if($mail_data['email']){
+
+        //dd($mail_data['email']);
+
+        if($lims_supplier_data->email){
             try{
-                Mail::send( 'mail.return_details', $mail_data, function( $message ) use ($mail_data)
+                Mail::send( 'backend.mail.return_details', $mail_data, function( $message ) use ($mail_data)
                 {
                     $message->to( $mail_data['email'] )->subject( 'Return Details' );
                 });
@@ -633,8 +643,9 @@ class ReturnPurchaseController extends Controller
                 $mail_data['qty'][$key] = $product_return_data->qty;
                 $mail_data['total'][$key] = $product_return_data->qty;
             }
+            
             try{
-                Mail::send( 'mail.return_details', $mail_data, function( $message ) use ($mail_data)
+                Mail::send( 'backend.mail.return_details', $mail_data, function( $message ) use ($mail_data)
                 {
                     $message->to( $mail_data['email'] )->subject( 'Return Details' );
                 });
@@ -888,7 +899,8 @@ class ReturnPurchaseController extends Controller
 
     public function deleteBySelection(Request $request)
     {
-        $return_id = $request['returnIdArray'];
+        $return_id = $request['PurchaseIdArray'];
+        //dd($return_id);
         foreach ($return_id as $id) {
             $lims_return_data = ReturnPurchase::find($id);
             $lims_product_return_data = PurchaseProductReturn::where('return_id', $id)->get();

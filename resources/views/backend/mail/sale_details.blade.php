@@ -17,7 +17,7 @@
 <table style="border-collapse: collapse; width: 100%;">
 	<thead>
 		<th style="border: 1px solid #000; padding: 5px">#</th>
-		<th style="border: 1px solid #000; padding: 5px">Product</th>
+		<th style="border: 1px solid #1d1515; padding: 5px">Product</th>
 		<th style="border: 1px solid #000; padding: 5px">Download Link</th>
 		<th style="border: 1px solid #000; padding: 5px">Qty</th>
 		<th style="border: 1px solid #000; padding: 5px">Unit Price</th>

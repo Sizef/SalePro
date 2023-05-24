@@ -14,9 +14,9 @@
             </div>
             {!! Form::open(['route' => 'quotations.index', 'method' => 'get']) !!}
             <div class="row mb-3">
-                <div class="col-md-4 offset-md-2 mt-3">
+                <div class="col-md-5 offset-md-0 ml-5 mt-4">
                     <div class="form-group row">
-                        <label class="d-tc mt-2"><strong>{{trans('file.Choose Your Date')}}</strong> &nbsp;</label>
+                        <label class="d-tc mt-1"><strong>{{trans('file.Choose Your Date')}} : </strong>&nbsp;</label>
                         <div class="d-tc">
                             <div class="input-group">
                                 <input type="text" class="daterangepicker-field form-control" value="{{$starting_date}} To {{$ending_date}}" required />
@@ -26,9 +26,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mt-3 @if(\Auth::user()->role_id > 2){{'d-none'}}@endif">
+                <div class="col-md-5 mt-4 @if(\Auth::user()->role_id > 2){{'d-none'}}@endif">
                     <div class="form-group row">
-                        <label class="d-tc mt-2"><strong>{{trans('file.Choose Warehouse')}}</strong> &nbsp;</label>
+                        <label class="d-tc mt-1"><strong>{{trans('file.Choose Warehouse')}} : </strong> &nbsp;</label>
                         <div class="d-tc">
                             <select id="warehouse_id" name="warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" >
                                 <option value="0">{{trans('file.All Warehouse')}}</option>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 mt-3">
+                <div class="col-md-0 mt-4">
                     <div class="form-group">
                         <button class="btn btn-primary" id="filter-btn" type="submit">{{trans('file.submit')}}</button>
                     </div>

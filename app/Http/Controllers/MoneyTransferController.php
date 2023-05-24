@@ -58,4 +58,18 @@ class MoneyTransferController extends Controller
         MoneyTransfer::find($id)->delete();
         return redirect()->back()->with('not_permitted', 'Data deleted successfully');
     }
+
+
+    public function deleteBySelection(Request $request) {
+
+        $money_transfer_id = $request['money_transferIdArray'];
+
+        foreach($money_transfer_id as $id){
+            $lims_return_data = MoneyTransfer::find($id);
+            $lims_return_data->delete();
+            return('Data deleted successfully');
+    
+        }
+
+    }
 }

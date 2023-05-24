@@ -108,7 +108,7 @@ class WarehouseController extends Controller
             $lims_warehouse_data->is_active = false;
             $lims_warehouse_data->save();
         }
-        $this->cacheForget('warehouse_list');
+        //$this->cacheForget('warehouse_list');
         return 'Warehouse deleted successfully!';
     }
 

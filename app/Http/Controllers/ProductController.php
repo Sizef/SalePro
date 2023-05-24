@@ -140,7 +140,7 @@ class ProductController extends Controller
                 $product_image = explode(",", $product->image);
                 $product_image = htmlspecialchars($product_image[0]);
                 if($product_image)
-                    $nestedData['image'] = '<img src="'.url('images/product', $product_image).'" height="80" width="80">';
+                    $nestedData['image'] = '<img src="'.url('public/images/product', $product_image).'" height="80" width="80">';
                 else
                     $nestedData['image'] = '<img src="images/zummXD2dvAtI.png" height="80" width="80">';
                 $nestedData['name'] = $product->name;
@@ -296,6 +296,8 @@ class ProductController extends Controller
             $data['last_date'] = date('Y-m-d', strtotime($data['last_date']));
         $data['is_active'] = true;
         $images = $request->image;
+        
+
         $image_names = [];
         if($images) {          
             foreach ($images as $key => $image) {
@@ -311,11 +313,16 @@ class ProductController extends Controller
                 }
                 $image_names[] = $imageName;
             }
+
             $data['image'] = implode(",", $image_names);
+
         }
         else {
             $data['image'] = 'zummXD2dvAtI.png';
         }
+
+        //dd($data['name']);
+
         $file = $request->file;
         if ($file) {
             $ext = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
