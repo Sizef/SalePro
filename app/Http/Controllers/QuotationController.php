@@ -300,6 +300,7 @@ class QuotationController extends Controller
             return redirect()->back()->with('not_permitted', 'Sorry! You are not allowed to access this module');
     }
 
+    
     public function store(Request $request)
     {
         $data = $request->except('document');
@@ -404,11 +405,92 @@ class QuotationController extends Controller
         return redirect('quotations')->with('message', $message);
     }
 
-    public function sendMail(Request $request)
+    public function showQuotationBill($id)
+    {
+        $lims_quotation_data = Quotation::where('id', $id)->get();
+        $lims_product_quotation_data = ProductQuotation::where('quotation_id', $id)->get();
+        //dd($lims_product_quotation_data);
+        $product_quotation = $this->productQuotationData($id);
+        //dd($product_quotation);
+
+        $biller = Biller::select('billers.*')
+                            ->join('quotations', 'quotations.biller_id', '=', 'billers.id')
+                            ->where('quotations.id' , $id)->get();
+        
+        $customer = Customer::select('customers.*')
+                            ->join('quotations', 'quotations.customer_id', '=', 'customers.id')
+                            ->where('quotations.id' , $id)->get();
+        
+        $user = Auth::user()->select('users.*')
+                            ->join('quotations', 'quotations.user_id', '=', 'users.id')
+                            ->where('quotations.id' , $id)->get();
+        //dd($biller);
+
+
+
+        return view('backend.quotation.bill', compact('lims_quotation_data' , 'biller' , 'customer' , 'user'));
+    }
+
+    public function sendBySpecifiedMail(Request $request)
     {
         $data = $request->all();
+        // dd($data["email"]);
         $lims_quotation_data = Quotation::find($data['quotation_id']);
         $lims_product_quotation_data = ProductQuotation::where('quotation_id', $data['quotation_id'])->get();
+        $lims_customer_data = Customer::find($lims_quotation_data->customer_id);
+
+        $email = $data["email"];
+
+        if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            //collecting male data
+            $mail_data['reference_no'] = $lims_quotation_data->reference_no;
+            $mail_data['total_qty'] = $lims_quotation_data->total_qty;
+            $mail_data['total_price'] = $lims_quotation_data->total_price;
+            $mail_data['order_tax'] = $lims_quotation_data->order_tax;
+            $mail_data['order_tax_rate'] = $lims_quotation_data->order_tax_rate;
+            $mail_data['order_discount'] = $lims_quotation_data->order_discount;
+            $mail_data['shipping_cost'] = $lims_quotation_data->shipping_cost;
+            $mail_data['grand_total'] = $lims_quotation_data->grand_total;
+
+            foreach ($lims_product_quotation_data as $key => $product_quotation_data) {
+                $lims_product_data = Product::find($product_quotation_data->product_id);
+                if($product_quotation_data->variant_id) {
+                    $variant_data = Variant::find($product_quotation_data->variant_id);
+                    $mail_data['products'][$key] = $lims_product_data->name . ' [' . $variant_data->name . ']';
+                }
+                else
+                    $mail_data['products'][$key] = $lims_product_data->name;
+                if($product_quotation_data->sale_unit_id){
+                    $lims_unit_data = Unit::find($product_quotation_data->sale_unit_id);
+                    $mail_data['unit'][$key] = $lims_unit_data->unit_code;
+                }
+                else
+                    $mail_data['unit'][$key] = '';
+
+                $mail_data['qty'][$key] = $product_quotation_data->qty;
+                $mail_data['total'][$key] = $product_quotation_data->total;
+            }
+
+            try{
+                Mail::to($email)->send(new QuotationDetails($mail_data));
+                $message = 'Mail sent successfully';
+            }
+            catch(\Exception $e){
+                $message = 'Please Check if your Email is valid.';
+            }
+        }
+        else
+            $message = 'Email is not vaild!';
+        
+        return redirect('quotations')->with('message', $message);
+    }
+
+    public function sendMail(Request $request)
+    {
+        $data = $request["quotationIdArray"];
+        //echo'<script>console.log('. $data .')</script>';
+        $lims_quotation_data = Quotation::find($data);
+        $lims_product_quotation_data = ProductQuotation::where('quotation_id', $data)->get();
         $lims_customer_data = Customer::find($lims_quotation_data->customer_id);
         if($lims_customer_data->email) {
             //collecting male data
@@ -449,10 +531,11 @@ class QuotationController extends Controller
                 $message = 'Please setup your <a href="setting/mail_setting">mail setting</a> to send mail.';
             }
         }
-        else
+        else{
             $message = 'Customer doesnt have email!';
+        }
         
-        return redirect()->back()->with('message', $message);
+        return redirect('quotation')->with('message', $message);
     }
 
     public function getCustomerGroup($id)
@@ -890,5 +973,10 @@ class QuotationController extends Controller
         }
         $lims_quotation_data->delete();
         return redirect('quotations')->with('not_permitted', 'Quotation deleted successfully');
+    }
+
+    public function show()
+    {
+
     }
 }

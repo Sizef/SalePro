@@ -52,8 +52,9 @@
             {!! Form::close() !!}
         </div>
         @if(in_array("quotes-add", $all_permission))
-            <a href="{{route('quotations.create')}}" class="btn btn-info"><i class="dripicons-plus"></i> {{trans('file.Add Quotation')}}</a>&nbsp;
-        @endif
+            <a href="{{route('quotations.create')}}" class="btn btn-info" id="btn-add-quotation"><i class="dripicons-plus"></i> {{trans('file.Add Quotation')}}</a>&nbsp;        
+        @endif    
+
     </div>
     <div class="table-responsive">
         <table id="quotation-table" class="table quotation-list" style="width: 100%">
@@ -95,10 +96,8 @@
             <div class="row">
                 <div class="col-md-6 d-print-none">
                     <button id="print-btn" type="button" class="btn btn-default btn-sm d-print-none"><i class="dripicons-print"></i> {{trans('file.Print')}}</button>
-                    {{ Form::open(['route' => 'quotation.sendmail', 'method' => 'post', 'class' => 'sendmail-form'] ) }}
-                        <input type="hidden" name="quotation_id">
-                        <button class="btn btn-default btn-sm d-print-none"><i class="dripicons-mail"></i> {{trans('file.Email')}}</button>
-                    {{ Form::close() }}
+                    <input type="hidden" name="quotation_id">
+                    <button id="email-btn" class="btn btn-default btn-sm d-print-none"><i class="dripicons-mail"></i> {{trans('file.Email')}}</button>
                 </div>
 
                 <div class="col-md-6 d-print-none">
@@ -164,12 +163,41 @@
         }
     });
 
+
     function confirmDelete() {
         if (confirm("Are you sure want to delete?")) {
             return true;
         }
         return false;
     }
+
+    
+    
+    $("#email-btn").on("click" , function() {
+
+        var quotationData = [];
+        var quotation_id = $('input[name="quotation_id"]').val(); 
+        quotationData = quotation_id;
+        //alert(quotationData);
+        if(confirm("Do you wand specify a new email to send it this bill?")){
+            $(location).attr('href' , 'quotations/'+quotation_id+'/send_email');
+        }else{
+            $('#quotation-details').modal('hide');
+            location.reload();
+            $.ajax({
+                url: 'quotations/sendmail',
+                method: 'POST',
+                data: {
+                    quotationIdArray: quotationData,
+                    
+                },
+                success: function(response) {
+                    location.reload();
+                }
+            });
+        }
+    });
+
 
     $(document).on("click", "tr.quotation-link td:not(:first-child, :last-child)", function() {
         var quotation = $(this).parent().data('quotation');
@@ -380,6 +408,7 @@
         $('.buttons-delete').addClass('d-none');
 
     function quotationDetails(quotation){
+        //console.log(quotation);
         $('input[name="quotation_id"]').val(quotation[13]);
         var htmltext = '<strong>{{trans("file.Date")}}: </strong>'+quotation[0]+'<br><strong>{{trans("file.reference")}}: </strong>'+quotation[1]+'<br><strong>{{trans("file.Status")}}: </strong>'+quotation[2]+'<br>';
         if(quotation[25])

@@ -41,6 +41,16 @@
             </li>
             @endif
             <?php
+                $service_active = $role_has_permissions_list->where('name', 'purchases-index')->first();
+            ?>
+            @if($service_active)
+            <li><a href="#service" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-card"></i><span>{{trans('file.Service')}}</span></a>
+            <ul id="service" class="collapse list-unstyled ">
+                <li id="service-list-menu"><a href="{{route('services.index')}}">{{trans('file.Service List')}}</a></li>
+            </ul>
+            @endif
+
+            <?php
                 $index_permission_active = $role_has_permissions_list->where('name', 'purchases-index')->first();
             ?>
             @if($index_permission_active)
@@ -148,7 +158,7 @@
                 $purchase_return_index_permission_active = $role_has_permissions_list->where('name', 'purchase-return-index')->first();
             ?>
             @if($sale_return_index_permission_active || $purchase_return_index_permission_active)
-            <li><a href="#return" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-return"></i><span>{{trans('file.return')}}</span></a>
+            <li><a href="#return" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-return"></i><span>{{trans('file.Return')}}</span></a>
             <ul id="return" class="collapse list-unstyled ">
                 @if($sale_return_index_permission_active)
                 <li id="sale-return-menu"><a href="{{route('return-sale.index')}}">{{trans('file.Sale')}}</a></li>

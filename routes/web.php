@@ -179,8 +179,12 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
 	Route::get('quotations/{id}/create_sale', 'QuotationController@createSale')->name('quotation.create_sale');
 	Route::get('quotations/{id}/create_purchase', 'QuotationController@createPurchase')->name('quotation.create_purchase');
 	Route::post('quotations/sendmail', 'QuotationController@sendMail')->name('quotation.sendmail');
+	Route::post('quotations/sendBySpecifiedMail', 'QuotationController@sendBySpecifiedMail')->name('quotation.sendBySpecifiedMail');
+	Route::get('quotations/{id}/send_email', 'QuotationController@showQuotationBill')->name('quotation.showQuotationBill');
 	Route::post('quotations/deletebyselection', 'QuotationController@deleteBySelection');
 	Route::resource('quotations', 'QuotationController');
+
+	Route::resource('services', 'ServiceController');
 
 	Route::post('purchases/purchase-data', 'PurchaseController@purchaseData')->name('purchases.data');
 	Route::get('purchases/product_purchase/{id}','PurchaseController@productPurchaseData');

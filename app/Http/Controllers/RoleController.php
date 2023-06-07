@@ -80,6 +80,7 @@ class RoleController extends Controller
                 $all_permission[] = $permission->name;
             if(empty($all_permission))
                 $all_permission[] = 'dummy text';
+
             return view('backend.role.permission', compact('lims_role_data', 'all_permission'));
         }
         else
@@ -92,6 +93,8 @@ class RoleController extends Controller
             return redirect()->back()->with('not_permitted', 'This feature is disable for demo!');
 
         $role = Role::firstOrCreate(['id' => $request['role_id']]);
+
+        //dd($request);
 
         if($request->has('revenue_profit_summary')){
             $permission = Permission::firstOrCreate(['name' => 'revenue_profit_summary']);
@@ -163,6 +166,43 @@ class RoleController extends Controller
         }
         else
             $role->revokePermissionTo('products-delete');
+
+
+        if($request->has('services-index')){
+            $permission = Permission::firstOrCreate(['name' => 'services-index']);
+            if(!$role->hasPermissionTo('services-index')){
+                $role->givePermissionTo($permission);
+            }
+        }
+        else
+            $role->revokePermissionTo('services-index');
+        
+        if($request->has('services-add')){
+            $permission = Permission::firstOrCreate(['name' => 'services-add']);
+            if(!$role->hasPermissionTo('services-add')){
+                $role->givePermissionTo($permission);
+            }
+        }
+        else
+            $role->revokePermissionTo('services-add');
+        if($request->has('services-edit')){
+            $permission = Permission::firstOrCreate(['name' => 'services-edit']);
+            if(!$role->hasPermissionTo('services-edit')){
+                $role->givePermissionTo($permission);
+            }
+        }
+        else
+            $role->revokePermissionTo('services-edit');
+        
+        if($request->has('services-delete')){
+            $permission = Permission::firstOrCreate(['name' => 'services-delete']);
+            if(!$role->hasPermissionTo('services-delete')){
+                $role->givePermissionTo($permission);
+            }
+        }
+        else
+            $role->revokePermissionTo('services-delete');
+        
 
         if($request->has('purchases-index')){
             $permission = Permission::firstOrCreate(['name' => 'purchases-index']);

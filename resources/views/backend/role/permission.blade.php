@@ -89,6 +89,58 @@
 						            </td>
 						        </tr>
 
+								<tr>
+									<td>{{trans('file.Service')}}</td>
+									<td class="text-center">
+										<div class="icheckbox_square-blue checked" aria-checked="false" aria-disabled="false">
+											<div class="checkbox">
+												@if(in_array("services-index", $all_permission))
+												<input type="checkbox" value="1" id="services-index" name="services-index" checked />
+												@else
+												<input type="checkbox" value="1" id="services-index" name="services-index" />
+												@endif
+												<label for="services-index"></label>
+											</div>
+										</div>
+									</td>
+									<td class="text-center">
+										<div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false">
+											<div class="checkbox">
+												@if(in_array("services-add", $all_permission))
+												   <input type="checkbox" value="1" id="services-add" name="services-add" checked>
+												@else
+												<input type="checkbox" value="1" id="services-add" name="services-add">
+												@endif
+												<label for="services-add"></label>
+											</div>
+										</div>
+									</td>
+									<td class="text-center">
+										<div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false">
+											<div class="checkbox">
+												@if(in_array("services-edit", $all_permission))
+												<input type="checkbox" value="1" id="services-edit" name="services-edit" checked />
+												@else
+												<input type="checkbox" value="1" id="services-edit" name="services-edit" />
+												@endif
+												<label for="services-edit"></label>
+											</div>
+										</div>
+									</td>
+									<td class="text-center">
+										<div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false">
+											<div class="checkbox">
+												@if(in_array("services-delete", $all_permission))
+												<input type="checkbox" value="1" id="services-delete" name="services-delete" checked />
+												@else
+												<input type="checkbox" value="1" id="services-delete" name="services-delete" />
+												@endif
+												<label for="services-delete"></label>
+											</div>
+										</div>
+									</td>
+								</tr>
+
 						        <tr>
 						            <td>{{trans('file.Purchase')}}</td>
 						            <td class="text-center">
