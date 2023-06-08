@@ -66,6 +66,17 @@
                                             <input type="text" name="product_code_name" id="lims_productcodeSearch" placeholder="Please type product code and select..." class="form-control" />
                                         </div>
                                     </div>
+                                    <div class="col-md-12 mt-3">
+                                        <button type=button class="btn btn-info" id="btn-add-service"><i class="dripicons-plus"></i> {{trans('file.Add Service')}}</button>  
+                                        <button type=button class="btn btn-danger" id="btn-hide-service"><i class="dripicons-cross"></i></button>  
+                                    </div>
+                                    <div class="col-md-12 mt-2" id="service-section">
+                                        <label>{{trans('file.Select Service')}}</label>
+                                        <div class="search-box input-group">
+                                            <button class="btn btn-secondary"><i class="fa fa-barcode"></i></button>
+                                            <input type="text" name="service_code_name" id="lims_servicecodeSearch" placeholder="Please type service code and select..." class="form-control" />
+                                        </div>
+                                    </div>
                                 </div>
 		                        <div class="row mt-5">
 		                            <div class="col-md-12">
@@ -284,7 +295,139 @@
     $("ul#quotation").addClass("show");
     $("ul#quotation #quotation-create-menu").addClass("active");
 
+
+    $("#service-section").hide();
+    $("#btn-hide-service").hide();
+
+    $("#btn-add-service").on( "click", function() {
+        $("#service-section").show(300);
+        $("#btn-hide-service").show(300);
+
+        $.get('getservice', function(data) {
+            //console.log(data);
+            lims_service_array = [];
+            service = data;
+            service_code = data[0];
+            service_title = data[1];
+            service_qty = 1;
+            service_price = data[2];
+            service_id = data[3];
+            $.each(service, function(index) {
+                lims_service_array.push(service[index].code + ' (' + service[index].title + ')');
+            });
+            //console.log(lims_service_array);
+        });
+
+    });
+
+    $("#btn-hide-service").on( "click", function() {
+        $("#service-section").hide(200);
+        $("#btn-hide-service").hide(200);
+    });
+
+
+	var lims_servicecodeSearch = $('#lims_servicecodeSearch');
+
+	lims_servicecodeSearch.autocomplete({
+	    source: function(request, response) {
+	        var matcher = new RegExp(".?" + $.ui.autocomplete.escapeRegex(request.term), "i");
+	        response($.grep(lims_service_array, function(item) {
+	            return matcher.test(item);
+	        }));
+	    },
+        response: function(event, ui) {
+            if (ui.content.length == 1) {
+                var data = ui.content[0].value;
+                $(this).autocomplete( "close" );
+                // console.log(data);
+                serviceSearch(data);
+            };
+        },
+	    select: function(event, ui) {
+	        var data = ui.item.value;
+            serviceSearch(data);
+	    }
+	});
+
+
+
+    function serviceSearch(data){
+    //console.log(data);
+    $.ajax({
+        type: 'GET',
+        url: 'lims_service_search',
+        data: {
+            data: data
+        },
+        success: function(data) {
+            console.log(data);
+            var flag = 1;
+            $(".service-code").each(function(i) {
+                if ($(this).val() == data[1]) {
+                    rowindex = i;
+                    var qty = parseFloat($('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ') .qty').val()) + 1;
+                    $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ') .qty').val(qty);
+                    checkQuantity(String(qty), true);
+                    flag = 0;
+                }
+            });
+            $("input[name='service_code_name']").val('');
+            if(flag){
+                var newRow = $("<tr>");
+                var cols = '';
+                // temp_unit_name = (data[6]).split(',');
+                cols += '<td>' + data[0] + '<button type="button" class="edit-service btn btn-link" data-toggle="modal" data-target="#editModal"> <i class="dripicons-document-edit"></i></button></td>';
+                cols += '<td>' + data[1] + '</td>';
+                cols += '<td><input type="text" class="form-control batch-no" disabled/> <input type="hidden" class="product-batch-id" name="product_batch_id[]"/> </td>';
+                cols += '<td><input type="number" class="form-control qty" name="qty[]" value="1" step="any" required disabled/></td>';
+                cols += '<td>'+ data[3] +'</td>';
+                cols += '<td class="discount">{{number_format(0, $general_setting->decimal, '.', '')}}</td>';
+                cols += '<td class="tax">{{number_format(0, $general_setting->decimal, '.', '')}}</td>';
+                cols += '<td class="sub-total"></td>';
+                cols += '<td><button type="button" class="ibtnDel btn btn-md btn-danger">{{trans("file.delete")}}</button></td>';
+                cols += '<input type="hidden" class="service-code" name="service_code[]" value="' + data[1] + '"/>';
+                cols += '<input type="hidden" class="service-id" name="service_id[]" value="' + data[4] + '"/>';
+                cols += '<input type="hidden" class="net_unit_price" name="net_unit_price[]" />';
+                cols += '<input type="hidden" class="discount-value" name="discount[]" />';
+                cols += '<input type="hidden" class="tax-rate" name="tax_rate[]" value="' + data[5] + '"/>';
+                cols += '<input type="hidden" class="tax-value" name="tax[]" />';
+                cols += '<input type="hidden" class="subtotal-value" name="subtotal[]" />';
+
+                newRow.append(cols);
+                $("table.order-list tbody").prepend(newRow);
+                rowindex = newRow.index();
+                // pos = product_code.indexOf(data[1]);
+                // if(!data[11] && product_warehouse_price[pos]) {
+                //     service_price.splice(rowindex, 0, parseFloat(product_warehouse_price[pos] * currency['exchange_rate']) + parseFloat(product_warehouse_price[pos] * currency['exchange_rate'] * customer_group_rate));
+                // }
+                // else {
+                //     service_price.splice(rowindex, 0, parseFloat(data[2] * currency['exchange_rate']) + parseFloat(data[2] * currency['exchange_rate'] * customer_group_rate));
+                // }
+                product_discount.splice(rowindex, 0, '{{number_format(0, $general_setting->decimal, '.', '')}}');
+                tax_rate.splice(rowindex, 0, parseFloat(data[3]));
+                tax_name.splice(rowindex, 0, data[4]);
+                tax_method.splice(rowindex, 0, data[5]);
+                unit_name.splice(rowindex, 0, data[6]);
+                unit_operator.splice(rowindex, 0, data[7]);
+                unit_operation_value.splice(rowindex, 0, data[8]);
+                checkQuantity(1, true);
+            }
+        }
+    });
+}
+
+    
+
+   
+
+
+   
+
+    
+   
+
 var lims_product_array = [];
+var lims_service_array = [];
 var product_code = [];
 var product_name = [];
 var product_qty = [];
@@ -341,6 +484,7 @@ var currency = <?php echo json_encode($currency) ?>;
             product_warehouse_price = data[7];
 	        $.each(product_code, function(index) {
 	            lims_product_array.push(product_code[index] + ' (' + product_name[index] + ')');
+                console.log(lims_product_array);
 	        });
 	    });
 	});
@@ -534,6 +678,7 @@ function productSearch(data){
             data: data
         },
         success: function(data) {
+            console.log(data);
             var flag = 1;
             $(".product-code").each(function(i) {
                 if ($(this).val() == data[1]) {
@@ -676,10 +821,13 @@ function checkQuantity(sale_qty, flag) {
         $('#editModal').modal('hide');
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.qty').val(sale_qty);
     }
-    calculateRowProductData(sale_qty);
+    calculateRowProductData(sale_qty , row_product_code);
 }
 
-function calculateRowProductData(quantity) {
+function calculateRowProductData(quantity , code) {
+
+    if()
+
     if(product_type[pos] == 'standard')
         unitConversion();
     else

@@ -41,14 +41,21 @@
             </li>
             @endif
             <?php
-                $service_active = $role_has_permissions_list->where('name', 'purchases-index')->first();
+
+                $service_index = $role_has_permissions_list->where('name', 'services-index')->first();
+
+                $service_add = $role_has_permissions_list->where('name', 'services-add')->first();
             ?>
-            @if($service_active)
-            <li><a href="#service" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-card"></i><span>{{trans('file.Service')}}</span></a>
+            @if($service_index)
+            <li><a href="#service" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-broadcast"></i><span>{{trans('file.Service')}}</span></a>
             <ul id="service" class="collapse list-unstyled ">
                 <li id="service-list-menu"><a href="{{route('services.index')}}">{{trans('file.Service List')}}</a></li>
+                @if($service_add)
+                <li id="service-add"><a href="{{route('services.create')}}">{{trans('file.Add Service')}}</a></li>
+                @endif
             </ul>
             @endif
+            
 
             <?php
                 $index_permission_active = $role_has_permissions_list->where('name', 'purchases-index')->first();

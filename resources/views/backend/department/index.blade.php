@@ -128,12 +128,13 @@
       }
       return false;
     }
-$(document).ready(function() {
-    $('.edit-btn').on('click', function(){
-        $("#editModal input[name='department_id']").val($(this).data('id'));
-        $("#editModal input[name='name']").val($(this).data('name'));
+    
+    $(document).ready(function() {
+        $('.edit-btn').on('click', function(){
+            $("#editModal input[name='department_id']").val($(this).data('id'));
+            $("#editModal input[name='name']").val($(this).data('name'));
+        });
     });
-});
 
     $('#department-table').DataTable( {
         "order": [],

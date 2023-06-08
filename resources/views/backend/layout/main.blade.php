@@ -166,6 +166,12 @@
                 <li class="dropdown-item"><a href="{{route('products.create')}}">{{__('file.add_product')}}</a></li>
                 @endif
                 <?php
+                    $service_add = $role_has_permissions_list->where('name', 'services-add')->first();
+                ?>
+                @if($service_add)
+                <li class="dropdown-item"><a href="{{route('services.create')}}">{{__('file.Add Service')}}</a></li>
+                @endif
+                <?php
                 $add_permission_active = $role_has_permissions_list->where('name', 'purchases-add')->first();
                 ?>
                 @if($add_permission_active)
@@ -302,7 +308,7 @@
                         <a href="{{ url('language_switch/es') }}" class="btn btn-link"> Español</a>
                         </li>
                         <li>
-                        <a href="{{ url('language_switch/ar') }}" class="btn btn-link"> عربى</a>
+                        <a href="{{ url('language_switch/ar') }}" class="btn btn-link"> العربية</a>
                         </li>
                         <li>
                         <a href="{{ url('language_switch/s_chinese') }}" class="btn btn-link">中国人</a>

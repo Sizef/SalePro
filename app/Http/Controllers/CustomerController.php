@@ -229,7 +229,7 @@ class CustomerController extends Controller
             ],
         ]);
 
-        $input = $request->all();
+        $input = $request->all(); 
         $lims_customer_data = Customer::find($id);
 
         if(isset($input['user'])) {

@@ -174,8 +174,10 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
 	Route::post('quotations/quotation-data', 'QuotationController@quotationData')->name('quotations.data');
 	Route::get('quotations/product_quotation/{id}','QuotationController@productQuotationData');
 	Route::get('quotations/lims_product_search', 'QuotationController@limsProductSearch')->name('product_quotation.search');
+	Route::get('quotations/lims_service_search', 'QuotationController@limsServiceSearch')->name('service_quotation.search');
 	Route::get('quotations/getcustomergroup/{id}', 'QuotationController@getCustomerGroup')->name('quotation.getcustomergroup');
 	Route::get('quotations/getproduct/{id}', 'QuotationController@getProduct')->name('quotation.getproduct');
+	Route::get('quotations/getservice', 'QuotationController@getServices')->name('quotation.getServices');
 	Route::get('quotations/{id}/create_sale', 'QuotationController@createSale')->name('quotation.create_sale');
 	Route::get('quotations/{id}/create_purchase', 'QuotationController@createPurchase')->name('quotation.create_purchase');
 	Route::post('quotations/sendmail', 'QuotationController@sendMail')->name('quotation.sendmail');
@@ -183,6 +185,10 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
 	Route::get('quotations/{id}/send_email', 'QuotationController@showQuotationBill')->name('quotation.showQuotationBill');
 	Route::post('quotations/deletebyselection', 'QuotationController@deleteBySelection');
 	Route::resource('quotations', 'QuotationController');
+
+
+	Route::post('services/deletebyselection', 'ServiceController@deleteBySelection');
+	Route::get('services/gencode', 'ServiceController@generateCode');
 
 	Route::resource('services', 'ServiceController');
 

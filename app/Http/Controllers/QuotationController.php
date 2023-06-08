@@ -25,6 +25,7 @@ use Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Mail\QuotationDetails;
+use App\Service;
 use Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\TenantInfo;
@@ -649,6 +650,13 @@ class QuotationController extends Controller
         return $product_data;
     }
 
+    
+    public function getServices(Request $request)
+    {
+        $lims_service_list = Service::where('is_active' , 1)->get();
+        return $lims_service_list;
+    }
+
     public function limsProductSearch(Request $request)
     {
         $todayDate = date('Y-m-d');
@@ -718,6 +726,27 @@ class QuotationController extends Controller
         $product[] = $lims_product_data->is_batch;
         $product[] = $lims_product_data->is_imei;
         return $product;
+    }
+
+    public function limsServiceSearch(Request $request)
+    {
+        $service_code = explode("(", $request['data']);
+        $service_code[0] = rtrim($service_code[0], " ");
+        $lims_service_data = Service::where([
+            ['code', $service_code[0] ],
+            ['is_active', 1]
+        ])->first();
+
+        $service[] = $lims_service_data->title;
+        $service[] = $lims_service_data->code;
+        $service[] = 1;
+        $service[] = $lims_service_data->price;
+        $service[] = 0;
+        $service[] = 0;
+        $service[] = $lims_service_data->id;
+
+        return $service;
+
     }
 
     public function productQuotationData($id)
