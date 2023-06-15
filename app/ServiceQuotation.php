@@ -11,6 +11,6 @@ class ServiceQuotation extends Model
 
     protected $table = 'service_quotations';
     protected $fillable =[
-        "quotation_id", "service_id", "qty" , "net_unit_price", "discount", "tax_rate", "tax", "total"
+        "quotation_id", "service_id", "price" , "discount", "total"
     ];
 }

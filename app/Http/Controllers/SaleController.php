@@ -1159,6 +1159,8 @@ class SaleController extends Controller
                     $lims_product_list[] = clone($product);
                 }
             }
+
+            // return dd($lims_product_list);
             
             $product_number = count($lims_product_list);
             $lims_pos_setting_data = Cache::remember('pos_setting', 60*60*24*30, function () {

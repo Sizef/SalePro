@@ -172,7 +172,10 @@ Route::group(['middleware' => ['common', 'auth', 'active']], function() {
 	Route::post('delivery/delete/{id}', 'DeliveryController@delete')->name('delivery.delete');
 
 	Route::post('quotations/quotation-data', 'QuotationController@quotationData')->name('quotations.data');
+	Route::post('quotations/newservice', 'QuotationController@storeService')->name('quotations.storeService');
+	Route::get('quotations/newservice/gencode', 'QuotationController@generateCode');
 	Route::get('quotations/product_quotation/{id}','QuotationController@productQuotationData');
+	Route::get('quotations/service_quotation/{id}','QuotationController@serviceQuotationData');
 	Route::get('quotations/lims_product_search', 'QuotationController@limsProductSearch')->name('product_quotation.search');
 	Route::get('quotations/lims_service_search', 'QuotationController@limsServiceSearch')->name('service_quotation.search');
 	Route::get('quotations/getcustomergroup/{id}', 'QuotationController@getCustomerGroup')->name('quotation.getcustomergroup');

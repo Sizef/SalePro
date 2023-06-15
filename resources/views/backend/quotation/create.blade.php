@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header d-flex align-items-center">
-                        <h4>{{trans('file.Add Quotation of product')}}</h4>
+                        <h4>{{trans('file.Add Quotation')}}</h4>
                     </div>
                     <div class="card-body">
                         <p class="italic"><small>{{trans('file.The field labels marked with * are required input fields')}}.</small></p>
@@ -67,7 +67,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 mt-3">
-                                        <button type=button class="btn btn-info" id="btn-add-service"><i class="dripicons-plus"></i> {{trans('file.Add Service')}}</button>  
+                                        <button type=button class="btn btn-primary" id="btn-select-service"><i class="dripicons-view-list "></i> {{trans('file.Select Service')}}</button>  
+                                        <button type=button class="btn btn-info" id="btn-add-service" data-toggle="modal" data-target="#addServiceModal"><i class="dripicons-plus"></i> {{trans('file.Add Service')}}</button>  
                                         <button type=button class="btn btn-danger" id="btn-hide-service"><i class="dripicons-cross"></i></button>  
                                     </div>
                                     <div class="col-md-12 mt-2" id="service-section">
@@ -78,9 +79,42 @@
                                         </div>
                                     </div>
                                 </div>
+        
+                            {{-- Service Order Table  --}}
+
+                            <div id="ServiceTable" class="row mt-5">
+                                <div class="col-md-12">
+                                    <h5>{{trans('file.Service Order Table')}} *</h5>
+                                    <div class="table-responsive mt-3">
+                                        <table id="myService" class="table table-hover service-order-list">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{trans('file.Title')}}</th>
+                                                    <th>{{trans('file.Code')}}</th>
+                                                    <th>{{trans('file.Price')}}</th>
+                                                    <th>{{trans('file.Discount')}}</th>
+                                                    <th>{{trans('file.Subtotal')}}</th>
+                                                    <th><i class="dripicons-trash"></i></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="service-tbody">
+                                            </tbody>
+                                            <tfoot class="tfoot active">
+                                                <th colspan="2">{{trans('file.Total')}}</th>
+                                                <th></th>
+                                                <th id="service-total-discount">{{number_format(0, $general_setting->decimal, '.', '')}}</th>
+                                                <th id="service-total">{{number_format(0, $general_setting->decimal, '.', '')}}</th>
+                                                <th><i class="dripicons-trash"></i></th>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
 		                        <div class="row mt-5">
 		                            <div class="col-md-12">
-		                                <h5>{{trans('file.Order Table')}} *</h5>
+		                                <h5>{{trans('file.Product Order Table')}} *</h5>
 		                                <div class="table-responsive mt-3">
 		                                    <table id="myTable" class="table table-hover order-list">
 		                                        <thead>
@@ -135,8 +169,33 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
+                                            <input type="hidden" name="service_total_price" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="hidden" name="sub-total" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
                                             <input type="hidden" name="item" />
                                             <input type="hidden" name="order_tax" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="hidden" name="service" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="hidden" name="service_total_discount" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="hidden" name="service_sub_total" />
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -218,6 +277,9 @@
             <td><strong>{{trans('file.Items')}}</strong>
                 <span class="pull-right" id="item">{{number_format(0, $general_setting->decimal, '.', '')}}</span>
             </td>
+            <td><strong>{{trans('file.Services')}}</strong>
+                <span class="pull-right" id="service-nbre">{{number_format(0, $general_setting->decimal, '.', '')}}</span>
+            </td>
             <td><strong>{{trans('file.Total')}}</strong>
                 <span class="pull-right" id="subtotal">{{number_format(0, $general_setting->decimal, '.', '')}}</span>
             </td>
@@ -235,6 +297,95 @@
             </td>
         </table>
     </div>
+
+
+    {{-- Add Service Modal --}}
+    <div id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+        <div role="document" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="service_modal_header" class="modal-title">{{trans('file.Add Service')}}</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <p class="italic"><small>{{trans('file.The field labels marked with * are required input fields')}}.</small></p>
+                        <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{trans('file.Service Title')}} *</strong> </label>
+                                        <input type="text" name="title" class="form-control" id="title" aria-describedby="name" required>
+                                        @if($errors->has('title'))
+                                       <span>
+                                           <strong>{{ $errors->first('title') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{trans('file.Service Code')}} *</strong> </label>
+                                        <div class="input-group">
+                                            <input type="text" name="code" class="form-control" id="code" aria-describedby="code" required>
+                                            <div class="input-group-append">
+                                                <button id="genbutton" type="button" class="btn btn-sm btn-default" title="{{trans('file.Generate')}}"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        @if($errors->has('code'))
+                                        <span>
+                                            <strong>{{ $errors->first('code') }}</strong>
+                                         </span>
+                                         @endif                               
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{trans('file.Service Price')}} *</strong> </label>
+                                        <input type="number" name="price" class="form-control" id="price" aria-describedby="price" required>
+                                        @if($errors->has('price'))
+                                        <span>
+                                            <strong>{{ $errors->first('price') }}</strong>
+                                         </span>
+                                         @endif                                
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="{{trans('file.submit')}}" id="submit-btn" class="btn btn-primary">
+                            </div>
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{-- Service Edit Modal --}}
+    <div id="serviceEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+        <div role="document" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="service_modal_header" class="modal-title"></h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>{{trans('file.Service Discount')}}</label>
+                        <input type="number" name="service_edit_discount" class="form-control" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label>{{trans('file.Service Price')}}</label>
+                        <input type="number" name="service_edit_price" class="form-control" step="any">
+                    </div>
+                    <button type="button" name="service_update_btn" class="btn btn-primary">{{trans('file.update')}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
         <div role="document" class="modal-dialog">
             <div class="modal-content">
@@ -291,6 +442,13 @@
 @push('scripts')
 <script type="text/javascript">
 
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     $("ul#quotation").siblings('a').attr('aria-expanded','true');
     $("ul#quotation").addClass("show");
     $("ul#quotation #quotation-create-menu").addClass("active");
@@ -298,35 +456,54 @@
 
     $("#service-section").hide();
     $("#btn-hide-service").hide();
+    $("#ServiceTable").hide();
 
-    $("#btn-add-service").on( "click", function() {
+    $("#btn-hide-service").on( "click", function() {
+        $("#service-section").hide(200);
+        $("#btn-hide-service").hide(200);
+        $("#ServiceTable").hide(200);
+        //$("#ServiceTable > tbody").empty();
+
+    });
+
+
+    $('#genbutton').on("click", function(){
+      $.get('newservice/gencode', function(data){
+        $("input[name='code']").val(data);
+      });
+    });
+
+
+    var price = 0;
+    var service_discount = [];
+    var service_price = [];
+    var service_id = [];
+    var discount = [];
+    var rowindex;
+    var discountValue;
+
+
+
+    $("#btn-select-service").on( "click", function() {
         $("#service-section").show(300);
         $("#btn-hide-service").show(300);
+        $("#ServiceTable").show(300);
 
         $.get('getservice', function(data) {
-            //console.log(data);
             lims_service_array = [];
-            service = data;
             service_code = data[0];
             service_title = data[1];
             service_qty = 1;
             service_price = data[2];
             service_id = data[3];
-            $.each(service, function(index) {
-                lims_service_array.push(service[index].code + ' (' + service[index].title + ')');
+            $.each(service_code, function(index) {
+                lims_service_array.push(service_code[index] + ' (' + service_title[index] + ')');
             });
-            //console.log(lims_service_array);
+            // console.log(lims_service_array);
         });
-
     });
 
-    $("#btn-hide-service").on( "click", function() {
-        $("#service-section").hide(200);
-        $("#btn-hide-service").hide(200);
-    });
-
-
-	var lims_servicecodeSearch = $('#lims_servicecodeSearch');
+    var lims_servicecodeSearch = $('#lims_servicecodeSearch');
 
 	lims_servicecodeSearch.autocomplete({
 	    source: function(request, response) {
@@ -339,9 +516,8 @@
             if (ui.content.length == 1) {
                 var data = ui.content[0].value;
                 $(this).autocomplete( "close" );
-                // console.log(data);
                 serviceSearch(data);
-            };
+            }
         },
 	    select: function(event, ui) {
 	        var data = ui.item.value;
@@ -350,112 +526,225 @@
 	});
 
 
+    $("#submit-btn").on('click' , function(){
+        var title = $("#title").val();
+        var code = $("#code").val();
+        var price = $("#price").val();
+        console.log(title);
+        $.ajax({
+            type: 'POST',
+            url: '{{route('quotations.storeService')}}',
+            data: { 
 
-    function serviceSearch(data){
-    //console.log(data);
-    $.ajax({
-        type: 'GET',
-        url: 'lims_service_search',
-        data: {
-            data: data
-        },
-        success: function(data) {
-            console.log(data);
-            var flag = 1;
-            $(".service-code").each(function(i) {
-                if ($(this).val() == data[1]) {
-                    rowindex = i;
-                    var qty = parseFloat($('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ') .qty').val()) + 1;
-                    $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ') .qty').val(qty);
-                    checkQuantity(String(qty), true);
-                    flag = 0;
-                }
-            });
-            $("input[name='service_code_name']").val('');
-            if(flag){
+                title : title,
+                code : code,
+                price : price,
+
+            },
+            success: function(data) {
+                console.log(data);
                 var newRow = $("<tr>");
                 var cols = '';
-                // temp_unit_name = (data[6]).split(',');
-                cols += '<td>' + data[0] + '<button type="button" class="edit-service btn btn-link" data-toggle="modal" data-target="#editModal"> <i class="dripicons-document-edit"></i></button></td>';
-                cols += '<td>' + data[1] + '</td>';
-                cols += '<td><input type="text" class="form-control batch-no" disabled/> <input type="hidden" class="product-batch-id" name="product_batch_id[]"/> </td>';
-                cols += '<td><input type="number" class="form-control qty" name="qty[]" value="1" step="any" required disabled/></td>';
-                cols += '<td>'+ data[3] +'</td>';
-                cols += '<td class="discount">{{number_format(0, $general_setting->decimal, '.', '')}}</td>';
-                cols += '<td class="tax">{{number_format(0, $general_setting->decimal, '.', '')}}</td>';
-                cols += '<td class="sub-total"></td>';
-                cols += '<td><button type="button" class="ibtnDel btn btn-md btn-danger">{{trans("file.delete")}}</button></td>';
-                cols += '<input type="hidden" class="service-code" name="service_code[]" value="' + data[1] + '"/>';
-                cols += '<input type="hidden" class="service-id" name="service_id[]" value="' + data[4] + '"/>';
-                cols += '<input type="hidden" class="net_unit_price" name="net_unit_price[]" />';
-                cols += '<input type="hidden" class="discount-value" name="discount[]" />';
-                cols += '<input type="hidden" class="tax-rate" name="tax_rate[]" value="' + data[5] + '"/>';
-                cols += '<input type="hidden" class="tax-value" name="tax[]" />';
-                cols += '<input type="hidden" class="subtotal-value" name="subtotal[]" />';
+                cols += '<td>' + data['title'] + '<button type="button" class="edit-service btn btn-link" data-toggle="modal" data-target="#serviceEditModal"> <i class="dripicons-document-edit"></i></button></td>';
+                cols += '<td>' + data['code'] + '</td>';
+                cols += '<td class = "service-price">'+ data['price'] +'</td>';
+                cols += '<td class="service-discount">{{number_format(0, $general_setting->decimal, '.', '')}}</td>';
+                cols += '<td class="service-sub-total"></td>';
+                cols += '<td><button type="button" class="sbtnDel btn btn-md btn-danger">{{trans("file.delete")}}</button></td>';
+                cols += '<input type="hidden" class="service-code" name="service_code[]" value="' + data['code'] + '"/>';
+                cols += '<input type="hidden" class="service-id" name="service_id[]" value="' + data['id'] + '"/>';
+                cols += '<input type="hidden" class="price" name="price[]" value="' + data['price'] + '"/>';
+                cols += '<input type="hidden" class="service-discount-value" name="discount[]" />';
+                cols += '<input type="hidden" class="subtotal-value" name="service-subtotal[]" />';
 
                 newRow.append(cols);
-                $("table.order-list tbody").prepend(newRow);
+                $("table.service-order-list tbody").prepend(newRow);
                 rowindex = newRow.index();
-                // pos = product_code.indexOf(data[1]);
-                // if(!data[11] && product_warehouse_price[pos]) {
-                //     service_price.splice(rowindex, 0, parseFloat(product_warehouse_price[pos] * currency['exchange_rate']) + parseFloat(product_warehouse_price[pos] * currency['exchange_rate'] * customer_group_rate));
-                // }
-                // else {
-                //     service_price.splice(rowindex, 0, parseFloat(data[2] * currency['exchange_rate']) + parseFloat(data[2] * currency['exchange_rate'] * customer_group_rate));
-                // }
-                product_discount.splice(rowindex, 0, '{{number_format(0, $general_setting->decimal, '.', '')}}');
-                tax_rate.splice(rowindex, 0, parseFloat(data[3]));
-                tax_name.splice(rowindex, 0, data[4]);
-                tax_method.splice(rowindex, 0, data[5]);
-                unit_name.splice(rowindex, 0, data[6]);
-                unit_operator.splice(rowindex, 0, data[7]);
-                unit_operation_value.splice(rowindex, 0, data[8]);
-                checkQuantity(1, true);
+    
+                service_discount.splice(rowindex, 0, '{{number_format(0, $general_setting->decimal, '.', '')}}');
+                price = data['price'];
+                //console.log("rowindex : "+rowindex);
+                //console.log(service_discount[rowindex]);
+                calculateRowServiceData(price , service_discount[rowindex]);
             }
-        }
+        });
     });
-}
 
+
+
+    function serviceSearch(data){
+        //console.log(data);
+        $.ajax({
+            type: 'GET',
+            url: 'lims_service_search',
+            data: {
+                data: data
+            },
+            success: function(data) {
+                //console.log(data);
+                var flag = 1;
+                $("input[name='service_code_name']").val('');
+                if(flag){
+                    var newRow = $("<tr>");
+                    var cols = '';
+                    cols += '<td>' + data[0] + '<button type="button" class="edit-service btn btn-link" data-toggle="modal" data-target="#serviceEditModal"> <i class="dripicons-document-edit"></i></button></td>';
+                    cols += '<td>' + data[1] + '</td>';
+                    cols += '<td class = "service-price">'+ data[2] +'</td>';
+                    cols += '<td class="service-discount">{{number_format(0, $general_setting->decimal, '.', '')}}</td>';
+                    cols += '<td class="service-sub-total"></td>';
+                    cols += '<td><button type="button" class="sbtnDel btn btn-md btn-danger">{{trans("file.delete")}}</button></td>';
+                    cols += '<input type="hidden" class="service-code" name="service_code[]" value="' + data[1] + '"/>';
+                    cols += '<input type="hidden" class="service-id" name="service_id[]" value="' + data[3] + '"/>';
+                    cols += '<input type="hidden" class="price" name="price[]" value="' + data[2] + '"/>';
+                    cols += '<input type="hidden" class="service-discount-value" name="discount[]" />';
+                    cols += '<input type="hidden" class="subtotal-value" name="service-subtotal[]" />';
+
+                    newRow.append(cols);
+                    $("table.service-order-list tbody").prepend(newRow);
+                    rowindex = newRow.index();
+        
+                    service_discount.splice(rowindex, 0, '{{number_format(0, $general_setting->decimal, '.', '')}}');
+                    price = data[2];
+                    //console.log("rowindex : "+rowindex);
+                    //console.log(service_discount[rowindex]);
+                    calculateRowServiceData(price , service_discount[rowindex]);
+                }
+            }
+        });
+
+        
+    }
+
+    $("table.service-order-list").on("click", ".edit-service", function() {
+        rowindex = $(this).closest('tr').index();
+        //alert(rowindex);
+        editService();
+    });
+
+    $('button[name="service_update_btn"]').on("click", function() {
+        var service_edit_discount = $('input[name="service_edit_discount"]').val();
+        var service_edit_price = $('input[name="service_edit_price"]').val();
+
+        if (parseFloat(service_edit_discount) > parseFloat(service_edit_price)) {
+            alert('Invalid Discount Input!');
+            return;
+        }else{
+            service_discount[rowindex] = service_edit_discount;
+            price = service_edit_price;
+            discount = service_edit_discount;
+            // console.log(parseFloat(service_edit_discount));
+            $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.service-price').text(parseFloat(service_edit_price).toFixed({{$general_setting->decimal}}));
+            $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.service-discount').text(parseFloat(service_edit_discount).toFixed({{$general_setting->decimal}}));
+            $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.service-discount-value').val(parseFloat(service_edit_discount).toFixed({{$general_setting->decimal}}));
+        }
+
+        calculateServiceTotal();
+
+        //alert(rowindex);
+
+        calculateRowServiceData(service_edit_price , service_edit_discount);
+
+        $('#serviceEditModal').modal('hide');
+    });
+
+    function editService()
+    {
+        var row_sevice_title = $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('td:nth-child(1)').text();
+        var row_sevice_code = $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('td:nth-child(2)').text();
+        var row_sevice_price = $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('td:nth-child(3)').text();
+        //console.log(row_sevice_title);
+        $('#service_modal_header').text(row_sevice_title + '(' + row_sevice_code + ')');
+
+        $('input[name="service_edit_discount"]').val(parseFloat(service_discount[rowindex]).toFixed({{$general_setting->decimal}}));
+        $('input[name="service_edit_price"]').val(parseFloat(row_sevice_price).toFixed({{$general_setting->decimal}}));
+
+    }
+
+
+
+
+
+    function calculateRowServiceData(price , discount) {
+        var sub_total = price - discount;
+        //alert(rowindex);
+        // console.log(discount);
+        $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.service-sub-total').text(sub_total.toFixed({{$general_setting->decimal}}));
+        $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.subtotal-value').val(sub_total.toFixed({{$general_setting->decimal}}));
+
+        calculateServiceTotal();
+    }
+
+
+    function calculateServiceTotal() {
+
+        //Sum of discount
+        var service_total_discount = 0;
+        $(".service-discount").each(function() {
+            service_total_discount += parseFloat($(this).text());
+        });
+        $("#service-total-discount").text(service_total_discount.toFixed({{$general_setting->decimal}}));
+        $('input[name="service_total_discount"]').val(service_total_discount.toFixed({{$general_setting->decimal}}));
+
+        //Sum of subtotal
+        var service_total = 0;
+        $(".service-sub-total").each(function() {
+            service_total += parseFloat($(this).text());
+
+        });
+        
+        $("#service-total").text(service_total.toFixed({{$general_setting->decimal}}));
+        $('input[name="service_total_price"]').val(service_total.toFixed({{$general_setting->decimal}}));
+
+        
+        calculateGrandTotal();
+
+
+    }
+
+
+    $("table.service-order-list tbody").on("click", ".sbtnDel", function(event) {
+	    rowindex = $(this).closest('tr').index();
+	    service_price.splice(rowindex, 1);
+	    service_discount.splice(rowindex, 1);
+	    $(this).closest("tr").remove();
+	    calculateServiceTotal();
+	});
     
 
-   
 
 
-   
 
-    
-   
+    var lims_product_array = [];
+    var product_code = [];
+    var product_name = [];
+    var product_qty = [];
+    var product_type = [];
+    var product_id = [];
+    var product_list = [];
+    var qty_list = [];
+    var total_qty = 0;
 
-var lims_product_array = [];
-var lims_service_array = [];
-var product_code = [];
-var product_name = [];
-var product_qty = [];
-var product_type = [];
-var product_id = [];
-var product_list = [];
-var qty_list = [];
 
-// array data with selection
-var product_price = [];
-var product_discount = [];
-var tax_rate = [];
-var tax_name = [];
-var tax_method = [];
-var unit_name = [];
-var unit_operator = [];
-var unit_operation_value = [];
+    // array data with selection
+    var product_price = [];
+    var product_discount = [];
+    var tax_rate = [];
+    var tax_name = [];
+    var tax_method = [];
+    var unit_name = [];
+    var unit_operator = [];
+    var unit_operation_value = [];
 
-// temporary array
-var temp_unit_name = [];
-var temp_unit_operator = [];
-var temp_unit_operation_value = [];
+    // temporary array
+    var temp_unit_name = [];
+    var temp_unit_operator = [];
+    var temp_unit_operation_value = [];
 
-var rowindex;
-var customer_group_rate;
-var row_product_price;
-var pos;
-var currency = <?php echo json_encode($currency) ?>;
+    var rowindex;
+    var customer_group_rate;
+    var row_product_price;
+    var pos;
+    var currency = <?php echo json_encode($currency) ?>;
 
 	$('.selectpicker').selectpicker({
     	style: 'btn-link',
@@ -484,7 +773,6 @@ var currency = <?php echo json_encode($currency) ?>;
             product_warehouse_price = data[7];
 	        $.each(product_code, function(index) {
 	            lims_product_array.push(product_code[index] + ' (' + product_name[index] + ')');
-                console.log(lims_product_array);
 	        });
 	    });
 	});
@@ -585,6 +873,7 @@ $("table.order-list").on("click", ".edit-product", function() {
     rowindex = $(this).closest('tr').index();
     edit();
 });
+
   //update product
 $('button[name="update_btn"]').on("click", function() {
     var edit_discount = $('input[name="edit_discount"]').val();
@@ -660,9 +949,10 @@ $(window).keydown(function(e){
 });
 
 $('#quotation-form').on('submit',function(e){
-    var rownumber = $('table.order-list tbody tr:last').index();
-    if (rownumber < 0) {
-        alert("Please insert product to order table!")
+    var productrownumber = $('table.order-list tbody tr:last').index();
+    var servicerownumber = $('table.service-order-list tbody tr:last').index();
+    if (productrownumber < 0 && servicerownumber < 0) {
+        alert("Your quotation must have at least one product or one service !")
         e.preventDefault();
     }
     else {
@@ -678,7 +968,6 @@ function productSearch(data){
             data: data
         },
         success: function(data) {
-            console.log(data);
             var flag = 1;
             $(".product-code").each(function(i) {
                 if ($(this).val() == data[1]) {
@@ -778,6 +1067,7 @@ function edit(){
 function checkQuantity(sale_qty, flag) {
     var row_product_code = $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('td:nth-child(2)').text();
     pos = product_code.indexOf(row_product_code);
+
     if(product_type[pos] == 'standard'){
         var operator = unit_operator[rowindex].split(',');
         var operation_value = unit_operation_value[rowindex].split(',');
@@ -821,13 +1111,10 @@ function checkQuantity(sale_qty, flag) {
         $('#editModal').modal('hide');
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.qty').val(sale_qty);
     }
-    calculateRowProductData(sale_qty , row_product_code);
+    calculateRowProductData(sale_qty);
 }
 
-function calculateRowProductData(quantity , code) {
-
-    if()
-
+function calculateRowProductData(quantity) {
     if(product_type[pos] == 'standard')
         unitConversion();
     else
@@ -848,6 +1135,7 @@ function calculateRowProductData(quantity , code) {
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.tax-value').val(tax.toFixed({{$general_setting->decimal}}));
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.sub-total').text(sub_total.toFixed({{$general_setting->decimal}}));
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.subtotal-value').val(sub_total.toFixed({{$general_setting->decimal}}));
+        
     } else {
         var sub_total_unit = row_product_price - product_discount[rowindex];
         var net_unit_price = (100 / (100 + tax_rate[rowindex])) * sub_total_unit;
@@ -860,6 +1148,7 @@ function calculateRowProductData(quantity , code) {
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.tax-value').val(tax.toFixed({{$general_setting->decimal}}));
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.sub-total').text(sub_total.toFixed({{$general_setting->decimal}}));
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.subtotal-value').val(sub_total.toFixed({{$general_setting->decimal}}));
+        
     }
 
     calculateTotal();
@@ -876,9 +1165,13 @@ function unitConversion() {
     }
 }
 
+
 function calculateTotal() {
     //Sum of quantity
+    
     var total_qty = 0;
+    //var sub-total = [];
+    
     $(".qty").each(function() {
 
         if ($(this).val() == '') {
@@ -911,6 +1204,9 @@ function calculateTotal() {
     $(".sub-total").each(function() {
         total += parseFloat($(this).text());
     });
+
+  
+
     $("#total").text(total.toFixed({{$general_setting->decimal}}));
     $('input[name="total_price"]').val(total.toFixed({{$general_setting->decimal}}));
 
@@ -923,9 +1219,17 @@ function calculateGrandTotal() {
 
     var total_qty = parseFloat($('#total-qty').text());
     var subtotal = parseFloat($('#total').text());
+    var product_subtotal = parseFloat($('#total').text());
     var order_tax = parseFloat($('select[name="order_tax_rate"]').val());
     var order_discount = parseFloat($('input[name="order_discount"]').val());
     var shipping_cost = parseFloat($('input[name="shipping_cost"]').val());
+
+    var service_sub_total = parseFloat($('#service-total').text());
+    var nbre_services = $('table.service-order-list tbody tr:last').index();
+
+    nbre_services = ++nbre_services;
+
+    console.log("sub total avant calacul " + subtotal);
 
     if (!order_discount)
         order_discount = {{number_format(0, $general_setting->decimal, '.', '')}};
@@ -936,8 +1240,24 @@ function calculateGrandTotal() {
     order_tax = (subtotal - order_discount) * (order_tax / 100);
     var grand_total = (subtotal + order_tax + shipping_cost) - order_discount;
 
+    // Add service total to products total and grandTotal
+    subtotal += service_sub_total;
+    // subtotal += product_subtotal;
+    grand_total += service_sub_total;
+
+    
+    // console.log("service_sub_total " + service_sub_total);
+    // console.log("product_subtotal " + product_subtotal);
+    // console.log("sub total après calacul " + subtotal);
+
+    
+
     $('#item').text(item);
+    $("#service-nbre").text(nbre_services);
     $('input[name="item"]').val($('table.order-list tbody tr:last').index() + 1);
+    $('input[name="service"]').val($('table.service-order-list tbody tr:last').index() + 1);
+    $('input[name="service_sub_total"]').val(service_sub_total.toFixed({{$general_setting->decimal}}));
+    $('input[name="total_price"]').val(subtotal.toFixed({{$general_setting->decimal}}));
     $('#subtotal').text(subtotal.toFixed({{$general_setting->decimal}}));
     $('#order_tax').text(order_tax.toFixed({{$general_setting->decimal}}));
     $('input[name="order_tax"]').val(order_tax.toFixed({{$general_setting->decimal}}));

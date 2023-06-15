@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-md-12">
-                                        <h5>{{trans('file.Order Table')}} *</h5>
+                                        <h5>{{trans('file.Product Order Table')}} *</h5>
                                         <div class="table-responsive mt-3">
                                             <table id="myTable" class="table table-hover order-list">
                                                 <thead>
@@ -161,8 +161,10 @@
 
                                                         $temp_unit_operator = $unit_operator = implode(",",$unit_operator) .',';
 
+
                                                         $temp_unit_operation_value = $unit_operation_value =  implode(",",$unit_operation_value) . ',';
                                                         $product_batch_data = \App\ProductBatch::select('batch_no')->find($product_quotation->product_batch_id);
+                                                        
                                                     ?>
                                                         <td>{{$product_data->name}} <button type="button" class="edit-product btn btn-link" data-toggle="modal" data-target="#editModal"> <i class="dripicons-document-edit"></i></button> </td>
                                                         <td>{{$product_data->code}}</td>
@@ -206,15 +208,109 @@
                                                 </tbody>
                                                 <tfoot class="tfoot active">
                                                     <th colspan="2">{{trans('file.Total')}}</th>
+                                                    <?php
+
+                                                    for( $i = 0 ; $i < count($lims_product_quotation_data) ; $i++){
+                                                        $product_total = $lims_product_quotation_data[$i]["total"];
+                                                        $tax = $lims_product_quotation_data[$i]["tax"];
+                                                        $discount = $lims_product_quotation_data[$i]["discount"];
+                                                    }
+
+                                                    ?>
                                                     <th></th>
                                                     <th id="total-qty">{{$lims_quotation_data->total_qty}}</th>
                                                     <th></th>
-                                                    <th id="total-discount">{{ number_format((float)$lims_quotation_data->total_discount, $general_setting->decimal, '.', '')}}</th>
-                                                    <th id="total-tax">{{ number_format((float)$lims_quotation_data->total_tax, $general_setting->decimal, '.', '')}}</th>
-                                                    <th id="total">{{ number_format((float)$lims_quotation_data->total_price, $general_setting->decimal, '.', '')}}</th>
+                                                    <th id="total-discount">{{ number_format((float)$discount, $general_setting->decimal, '.', '')}}</th>
+                                                    <th id="total-tax">{{ number_format((float)$tax, $general_setting->decimal, '.', '')}}</th>
+                                                    <th id="total">{{ number_format((float)$product_total, $general_setting->decimal, '.', '')}}</th>
                                                     <th><i class="dripicons-trash"></i></th>
                                                 </tfoot>
                                             </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12 mt-2">
+                                        <label>{{trans('file.Select Service')}}</label>
+                                        <div class="search-box input-group">
+                                            <button class="btn btn-secondary btn-lg"><i class="fa fa-barcode"></i></button>
+                                            <input type="text" name="service_code_name" id="lims_servicecodeSearch" placeholder="Please type service code and select..." class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <h5>{{trans('file.Service Order Table')}} *</h5>
+                                        <div class="table-responsive mt-3">
+                                            <table id="myService" class="table table-hover service-order-list">
+                                                <thead>
+                                                    <tr>
+                                                        <th>{{trans('file.Title')}}</th>
+                                                        <th>{{trans('file.Code')}}</th>
+                                                        <th>{{trans('file.Price')}}</th>
+                                                        <th>{{trans('file.Discount')}}</th>
+                                                        <th>{{trans('file.Subtotal')}}</th>
+                                                        <th><i class="dripicons-trash"></i></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($lims_service_quotation_data as $service_quotation)
+
+                                                <?php
+                                                    $service_data = DB::table('services')->find($service_quotation->service_id);
+                                                ?>
+
+                                                    <td>{{$service_data->title}} <button type="button" class="edit-service btn btn-link" data-toggle="modal" data-target="#serviceEditModal"> <i class="dripicons-document-edit"></i></button> </td>
+                                                    <td>{{$service_data->code}}</td>
+                                                    <td>{{$service_data->price}}</td>
+                                                    <td class="service_discount">{{ number_format((float)$service_quotation->discount, $general_setting->decimal, '.', '')}}</td>
+                                                    <td class="service_subtotal">{{ number_format((float)$service_quotation->total, $general_setting->decimal, '.', '')}}</td>
+                                                    <td><button type="button" class="sbtnDel btn btn-md btn-danger">{{trans("file.delete")}}</button></td>
+                                                    <input type="hidden" class="service_price" name="service_price[]" value="{{$service_data->price}}"/>
+                                                    <input type="hidden" class="service_discount_value" name="service_discount[]" value="{{$service_quotation->discount}}"/>
+                                                    <input type="hidden" class="service_subtotal_value" name="service_subtotal[]" value="{{$service_quotation->total}}" />
+
+                                                @endforeach
+                                                </tbody>
+                                                <tfoot class="tfoot active">
+                                                    <th colspan="2">{{trans('file.Total')}}</th>
+                                                    <?php
+
+                                                    for( $i = 0 ; $i < count($lims_service_quotation_data) ; $i++){
+                                                        $total = $lims_service_quotation_data[$i]["total"];
+                                                        $discount = $lims_service_quotation_data[$i]["discount"];
+                                                    }
+
+                                                    ?>
+                                                    <th></th>
+                                                    <th id="service_total_discount">{{ number_format((float)$discount, $general_setting->decimal, '.', '')}}</th>
+                                                    <th id="service_total">{{ number_format((float)$total, $general_setting->decimal, '.', '')}}</th>
+                                                    <th><i class="dripicons-trash"></i></th>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Service Edit Modal --}}
+                                <div id="serviceEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+                                    <div role="document" class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 id="service_modal_header" class="modal-title"></h5>
+                                                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>{{trans('file.Service Discount')}}</label>
+                                                    <input type="number" name="service_edit_discount" class="form-control" step="any">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>{{trans('file.Service Price')}}</label>
+                                                    <input type="number" name="service_edit_price" class="form-control" step="any">
+                                                </div>
+                                                <button type="button" name="service_update_btn" class="btn btn-primary">{{trans('file.update')}}</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -237,6 +333,21 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <input type="hidden" name="total_price" value="{{$lims_quotation_data->total_price}}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="hidden" name="service_total_discount" value="{{$discount}}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="hidden" name="service_total_price" value="{{$total}}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="hidden" name="product_total" value="{{$product_total}}" />
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -404,6 +515,95 @@
     $("ul#quotation").siblings('a').attr('aria-expanded','true');
     $("ul#quotation").addClass("show");
 
+    $(document).ready(function () {
+        $.ajax({
+            url: "{{route('quotation.getServices')}}",
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(data) {
+                lims_service_array = [];
+                service_code = data[0];
+                service_title = data[1];
+                service_qty = 1;
+                service_price = data[2];
+                service_id = data[3];
+                $.each(service_code, function(index) {
+                    lims_service_array.push(service_code[index] + ' (' + service_title[index] + ')');
+                });
+                console.log(lims_service_array);
+            }
+        });
+
+        calculateGrandTotal();
+    });
+
+
+    var lims_servicecodeSearch = $('#lims_servicecodeSearch');
+
+	lims_servicecodeSearch.autocomplete({
+	    source: function(request, response) {
+	        var matcher = new RegExp(".?" + $.ui.autocomplete.escapeRegex(request.term), "i");
+	        response($.grep(lims_service_array, function(item) {
+	            return matcher.test(item);
+	        }));
+	    },
+        response: function(event, ui) {
+            if (ui.content.length == 1) {
+                var data = ui.content[0].value;
+                $(this).autocomplete( "close" );
+                serviceSearch(data);
+            }
+        },
+	    select: function(event, ui) {
+	        var data = ui.item.value;
+            serviceSearch(data);
+	    }
+	});
+
+    function serviceSearch(data){
+        //console.log(data);
+        $.ajax({
+            type: 'GET',
+            url: '{{route('service_quotation.search')}}',
+            data: {
+                data: data
+            },
+            success: function(data) {
+                //console.log(data);
+                var flag = 1;
+                $("input[name='service_code_name']").val('');
+                if(flag){
+                    var newRow = $("<tr>");
+                    var cols = '';
+                    cols += '<td>' + data[0] + '<button type="button" class="edit-service btn btn-link" data-toggle="modal" data-target="#serviceEditModal"> <i class="dripicons-document-edit"></i></button></td>';
+                    cols += '<td>' + data[1] + '</td>';
+                    cols += '<td>'+ data[2] +'</td>';
+                    cols += '<td class="service_discount">{{number_format(0, $general_setting->decimal, '.', '')}}</td>';
+                    cols += '<td class="service_subtotal"></td>';
+                    cols += '<td><button type="button" class="sbtnDel btn btn-md btn-danger">{{trans("file.delete")}}</button></td>';
+                    cols += '<input type="hidden" class="service-code" name="service_code[]" value="' + data[1] + '"/>';
+                    cols += '<input type="hidden" class="service-id" name="service_id[]" value="' + data[3] + '"/>';
+                    cols += '<input type="hidden" class="service_price" name="service_price[]" value="' + data[2] + '"/>';
+                    cols += '<input type="hidden" class="service_discount_value" name="service_discount[]" />';
+                    cols += '<input type="hidden" class="service_subtotal_value" name="service_subtotal[]" />';
+
+                    newRow.append(cols);
+                    $("table.service-order-list tbody").prepend(newRow);
+                    rowindex = newRow.index();
+        
+                    service_discount.splice(rowindex, 0, '{{number_format(0, $general_setting->decimal, '.', '')}}');
+                    price = data[2];
+                    //console.log("rowindex : "+rowindex);
+                    //console.log(service_discount[rowindex]);
+                    calculateRowServiceData(price , service_discount[rowindex]);
+                }
+            }
+        });
+
+        
+    }
+    
+
 // array data depend on warehouse
 var lims_product_array = [];
 var product_code = [];
@@ -424,6 +624,12 @@ var unit_name = [];
 var unit_operator = [];
 var unit_operation_value = [];
 
+var service_code = [];
+var service_id = [];
+var service_price = [];
+var service_discount = [];
+var service_subtotal = [];
+
 // temporary array
 var temp_unit_name = [];
 var temp_unit_operator = [];
@@ -439,12 +645,13 @@ var currency = <?php echo json_encode($currency) ?>;
 
 var rownumber = $('table.order-list tbody tr:last').index();
 
-for(rowindex  =0; rowindex <= rownumber; rowindex++){
+for(rowindex = 0 ; rowindex <= rownumber ; rowindex++){
 
     product_price.push(parseFloat($('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.product-price').val()));
     exist_code.push($('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('td:nth-child(2)').text());
-    var total_discount = parseFloat($('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.discount').text());
     var quantity = parseFloat($('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.qty').val());
+    product_qty.push(quantity);
+    var total_discount = parseFloat($('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.discount').text());
     exist_qty.push(quantity);
     product_discount.push((total_discount / quantity).toFixed({{$general_setting->decimal}}));
     tax_rate.push(parseFloat($('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.tax-rate').val()));
@@ -455,6 +662,13 @@ for(rowindex  =0; rowindex <= rownumber; rowindex++){
     unit_operator.push($('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.sale-unit-operator').val());
     unit_operation_value.push($('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.sale-unit-operation-value').val());
     $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.sale-unit').val(temp_unit_name[0]);
+}
+
+var servicerownumber = $('table.service-order-list tbody tr:last').index();
+
+for(rowindex = 0 ; rowindex <= servicerownumber ; rowindex++){
+    service_price.push(parseFloat($('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.service_price').val()));
+    service_discount.push(parseFloat($('table.service-order-list tr:nth-child(' + (rowindex + 1) + ')').find('.service_discount').val()));
 }
 
 $('.selectpicker').selectpicker({
@@ -612,16 +826,117 @@ $("table.order-list tbody").on("click", ".ibtnDel", function(event) {
     calculateTotal();
 });
 
+//Delete service
+$("table.service-order-list tbody").on("click", ".sbtnDel", function(event) {
+    rowindex = $(this).closest('tr').index();
+    service_price.splice(rowindex, 1);
+    service_discount.splice(rowindex, 1);
+    $(this).closest("tr").remove();
+    calculateServiceTotal();
+});
+
 //Edit product
 $("table.order-list").on("click", ".edit-product", function() {
     rowindex = $(this).closest('tr').index();
     edit();
 });
+
+$("table.service-order-list").on("click", ".edit-service", function() {
+    rowindex = $(this).closest('tr').index();
+    //alert(rowindex);
+    editService();
+});
+
+
+function editService()
+{
+    var row_sevice_title = $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('td:nth-child(1)').text();
+    var row_sevice_code = $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('td:nth-child(2)').text();
+    var row_sevice_price = $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('td:nth-child(3)').text();
+    //console.log(row_sevice_title);
+    $('#service_modal_header').text(row_sevice_title + '(' + row_sevice_code + ')');
+
+    $('input[name="service_edit_discount"]').val(parseFloat(service_discount[rowindex]).toFixed({{$general_setting->decimal}}));
+    $('input[name="service_edit_price"]').val(parseFloat(row_sevice_price).toFixed({{$general_setting->decimal}}));
+
+}
+
+
+$('button[name="service_update_btn"]').on("click", function() {
+    var service_edit_discount = $('input[name="service_edit_discount"]').val();
+    var service_edit_price = $('input[name="service_edit_price"]').val();
+
+    if (parseFloat(service_edit_discount) > parseFloat(service_edit_price)) {
+        alert('Invalid Discount Input!');
+        return;
+    }else{
+        service_discount[rowindex] = service_edit_discount;
+        price = service_edit_price;
+        discount = service_edit_discount;
+        // console.log(parseFloat(service_edit_discount));
+        $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.service_discount').text(parseFloat(service_edit_discount).toFixed({{$general_setting->decimal}}));
+        $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.service_discount_value').val(parseFloat(service_edit_discount).toFixed({{$general_setting->decimal}}));
+    }
+
+    calculateServiceTotal();
+
+    //alert(rowindex);
+
+    calculateRowServiceData(service_edit_price , service_edit_discount);
+
+    $('#serviceEditModal').modal('hide');
+});
+
+
+function calculateServiceTotal() {
+
+    //Sum of discount
+    var service_total_discount = 0;
+    $(".service_discount").each(function() {
+        service_total_discount += parseFloat($(this).text());
+    });
+    $("#service_total_discount").text(service_total_discount.toFixed({{$general_setting->decimal}}));
+    $('input[name="service_total_discount"]').val(service_total_discount.toFixed({{$general_setting->decimal}}));
+
+    //Sum of subtotal
+    var service_total = 0;
+    $(".service_subtotal").each(function() {
+        service_total += parseFloat($(this).text());
+
+    });
+
+    $("#service_total").text(service_total.toFixed({{$general_setting->decimal}}));
+    $('input[name="service_total_price"]').val(service_total.toFixed({{$general_setting->decimal}}));
+
+
+    calculateGrandTotal();
+
+
+}
+
+
+function calculateRowServiceData(price , discount) {
+    var sub_total = price - discount;
+    //alert(rowindex);
+    // console.log(discount);
+    $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.service_subtotal').text(sub_total.toFixed({{$general_setting->decimal}}));
+    $('table.service-order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.service_subtotal_value').val(sub_total.toFixed({{$general_setting->decimal}}));
+
+    calculateServiceTotal();
+}
+
+
+
+
   //update product
 $('button[name="update_btn"]').on("click", function() {
     var edit_discount = $('input[name="edit_discount"]').val();
     var edit_qty = $('input[name="edit_qty"]').val();
     var edit_unit_price = $('input[name="edit_unit_price"]').val();
+
+    console.log("edit_discount : " + edit_discount);
+    console.log("edit_qty : " + edit_qty);
+    console.log("edit_unit_price : " + edit_unit_price);
 
     if (parseFloat(edit_discount) > parseFloat(edit_unit_price)) {
         alert('Invalid Discount Input!');
@@ -777,6 +1092,8 @@ function edit(){
     $('#modal_header').text(row_product_name + '(' + row_product_code + ')');
 
     var qty = $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.qty').val();
+
+    console.log("qty of row selected : " + qty);
     $('input[name="edit_qty"]').val(qty);
 
     $('input[name="edit_discount"]').val(parseFloat(product_discount[rowindex]).toFixed({{$general_setting->decimal}}));
@@ -809,15 +1126,20 @@ function edit(){
 }
 
 function checkQuantity(sale_qty, flag) {
+    //console.log(sale_qty);
     var row_product_code = $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('td:nth-child(2)').text();
     pos = product_code.indexOf(row_product_code);
+    var total_qty;
 
     if(product_type[pos] == 'standard'){
         var operator = unit_operator[rowindex].split(',');
         var operation_value = unit_operation_value[rowindex].split(',');
-        if(operator[0] == '*')
+
+        //console.log(operator[1]);
+
+        if(operator[1] == '*')
             total_qty = sale_qty * operation_value[0];
-        else if(operator[0] == '/')
+        else if(operator[1] == '/')
             total_qty = sale_qty / operation_value[0];
         if (total_qty > parseFloat(product_qty[pos])) {
             alert('Quantity exceeds stock quantity!');
@@ -855,6 +1177,9 @@ function checkQuantity(sale_qty, flag) {
         $('#editModal').modal('hide');
         $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.qty').val(sale_qty);
     }
+    
+    console.log(sale_qty);
+
     calculateRowProductData(sale_qty);
 }
 
@@ -863,6 +1188,8 @@ function calculateRowProductData(quantity) {
         unitConversion();
     else
         row_product_price = product_price[rowindex];
+
+    // alert(product_price[rowindex]);
 
     $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.discount').text((product_discount[rowindex] * quantity).toFixed({{$general_setting->decimal}}));
     $('table.order-list tbody tr:nth-child(' + (rowindex + 1) + ')').find('.discount-value').val((product_discount[rowindex] * quantity).toFixed({{$general_setting->decimal}}));
@@ -904,6 +1231,8 @@ function unitConversion() {
     } else {
         row_product_price = product_price[rowindex] / row_unit_operation_value;
     }
+
+    alert("row_unit_operator : " + row_unit_operator);
 }
 
 function calculateTotal() {
@@ -952,10 +1281,18 @@ function calculateGrandTotal() {
     var item = $('table.order-list tbody tr:last').index();
 
     var total_qty = parseFloat($('#total-qty').text());
+    var service_total = parseFloat($('#service_total').text());
     var subtotal = parseFloat($('#total').text());
+    var product_total = parseFloat($('#total').text());
     var order_tax = parseFloat($('select[name="order_tax_rate"]').val());
     var order_discount = parseFloat($('input[name="order_discount"]').val());
     var shipping_cost = parseFloat($('input[name="shipping_cost"]').val());
+
+    subtotal += service_total;
+
+    console.log("subtotal : " + subtotal);
+    console.log("service_total : " + service_total);
+    console.log("product_total : " + product_total);
 
     if (!order_discount)
         order_discount = {{number_format(0, $general_setting->decimal, '.', '')}};
@@ -968,6 +1305,8 @@ function calculateGrandTotal() {
 
     $('#item').text(item);
     $('input[name="item"]').val($('table.order-list tbody tr:last').index() + 1);
+    $('input[name="product_total"]').val(product_total.toFixed({{$general_setting->decimal}}));
+    $('input[name="total_price"]').val(subtotal.toFixed({{$general_setting->decimal}}));
     $('#subtotal').text(subtotal.toFixed({{$general_setting->decimal}}));
     $('#order_tax').text(order_tax.toFixed({{$general_setting->decimal}}));
     $('input[name="order_tax"]').val(order_tax.toFixed({{$general_setting->decimal}}));

@@ -17,11 +17,8 @@ class CreateServiceQuotationsTable extends Migration
             $table->id();
             $table->integer('quotation_id');
             $table->integer('service_id');
-            $table->double('qty');
-            $table->double('net_unit_price');
+            $table->double('price');
             $table->double('discount');
-            $table->double('tax_rate');
-            $table->double('tax');
             $table->double('total');
             $table->timestamps();
         });
